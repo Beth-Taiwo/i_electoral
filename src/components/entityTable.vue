@@ -1,0 +1,75 @@
+<template>
+<div class="container">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Name</th>
+                <th>Name</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+            <tr>
+                <td>BEth</td>
+                <td>Liz</td>
+                <td>Taiwo</td>
+                <td>Taiwo</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</template>
+
+<script>
+export default {
+
+}
+</script>

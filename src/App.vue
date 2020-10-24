@@ -26,4 +26,8 @@ h3 {
 .title {
     border-bottom: 1px solid rgb(0 0 0 / 10%);
 }
+
+.container {
+    padding: 32px 56px;
+}
 </style>

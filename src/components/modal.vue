@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button @click="close" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" @click="submit">Save</button>
             </div>
         </div>
     </div>
@@ -22,7 +22,19 @@
 
 <script>
 export default {
-    props: ['close']
+    props: ['close'],
+    data() {
+        return {
+            name: "",
+            content: ""
+        }
+    },
+    methods: {
+        submit() {
+            alert("working")
+
+        }
+    }
 }
 </script>
 

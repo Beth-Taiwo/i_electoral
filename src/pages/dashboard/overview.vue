@@ -86,10 +86,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    padding: 32px 56px;
-}
-
 .btn {
     background: #29B6F6;
     color: white;

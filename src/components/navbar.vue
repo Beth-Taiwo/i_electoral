@@ -82,7 +82,11 @@ nav h3 {
     background-color: #000;
 }
 
-.dropdown:hover .dropdown-content,
+/*.dropdown:hover .dropdown-content,
+.dropdown>button:focus+.dropdown-content {
+    display: block;
+}*/
+
 .dropdown>button:focus+.dropdown-content {
     display: block;
 }

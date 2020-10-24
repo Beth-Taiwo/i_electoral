@@ -1,7 +1,7 @@
 <template>
 <div>
     <div class="title heading">
-        <h3>Election</h3>
+        <h3>All Elections</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
     <modal :close="closeModal" v-show="showModal">
@@ -10,8 +10,8 @@
         </template>
         <template v-slot:content>
             <form>
-                <div class="form-group">
-                    <label for="election-name" class="col-form-label">Election name</label>
+                <div class="form-group mb-0">
+                    <label for="election-name" class="col-form-label" :v-model="name">Election name</label>
                     <input type="text" class="form-control" id="election-name">
                 </div>
                 <div class="form-group">
@@ -30,18 +30,22 @@
         </template>
 
     </modal>
+    <!--<entityTable />-->
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal'
+import modal from '../../components/modal';
+/*import entityTable from '../../components/entityTable'*/
 export default {
     components: {
-        modal
+        modal,
+        /* entityTable*/
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            name: ""
         }
     },
     methods: {
