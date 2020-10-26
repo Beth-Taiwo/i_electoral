@@ -19,12 +19,12 @@
                     <textarea v-model="election.tagline" class="form-control" id="message-text"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="">Start Time</label>
-                    <input v-model.lazy="election.startTime" type="time" name="startTime" id="startTime">
+                    <label for="">Start DateTime</label>
+                    <input v-model.lazy="election.startDateTime" type="datetime-local" name="startTime" id="startTime">
                 </div>
                 <div class="form-group">
-                    <label for="">End Time</label>
-                    <input v-model.lazy="election.endTime" type="time" name="endTime" id="endTime">
+                    <label for="">End DateTime</label>
+                    <input v-model.lazy="election.endDateTime" type="datetime-local" name="endTime" id="endTime">
                 </div>
             </form>
         </template>
@@ -44,6 +44,7 @@ export default {
         modal,
         entityTable
     },
+    //props: ["showModal"],
     data() {
         return {
             showModal: false,
@@ -51,8 +52,8 @@ export default {
             election: {
                 electionName: "",
                 tagline: "",
-                startTime: "",
-                endTime: "",
+                startDateTime: "",
+                endDateTime: "",
             },
             electiondata: []
         }
@@ -87,13 +88,13 @@ export default {
         // alert("Before mounted")
     },
     mounted() {
-        alert("mounted");
+        // alert("mounted");
     },
     beforeUpdate() {
-        alert("before updated")
+        // alert("before updated")
     },
     beforeUnmount() {
-        alert("before unmounted")
+        // alert("before unmounted")
         console.log(this.electiondata);
     }
 }

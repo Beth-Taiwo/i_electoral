@@ -4,7 +4,7 @@
         <div class="circle"></div>
         <div class="display-text">
             <span>Admin</span>
-            <span><small>online</small></span>
+
         </div>
     </div>
     <div>

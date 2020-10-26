@@ -55,6 +55,16 @@ const routes = [
         component: () => import('../pages/dashboard/setting')
       }
     ]
+  },
+  {
+    path: '/voter-login',
+    name: 'voterLogin',
+    component: () => import('../pages/voterLogin')
+  },
+  {
+    path: '/voter-dash',
+    name: 'voter-dash',
+    component: () => import('../voterPages/dashboard')
   }
 ]
 

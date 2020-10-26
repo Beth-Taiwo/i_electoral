@@ -4,7 +4,7 @@
         <h3>All Voters</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-    <modal :close="closeModal" v-show="showModal">
+    <modal :close="closeModal" v-show="showModal" @form-save="showVoterData">
         <template v-slot:title>
             <h5 class="modal-title" id="exampleModalLabel">Add Voter</h5>
         </template>
@@ -12,41 +12,37 @@
             <form>
                 <div class="form-group mb-0">
                     <label for="election-name" class="col-form-label">Voter name</label>
-                    <input type="text" placeholder="First Name" class="form-control" id="voter-name">
+                    <input v-model="voter.fullName" type="text" placeholder="Full Name" class="form-control" id="voter-name">
                 </div>
                 <div class="form-group">
                     <label for="message-text" class="col-form-label">Email</label>
-                    <input type="email" class="form-control" id="email">
-
+                    <input v-model="voter.email" type="email" class="form-control" id="email">
                 </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Status</label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">Voted</option>
-                        <option value="2">Not voted</option>
-                    </select>
-                </div>
-
             </form>
         </template>
 
     </modal>
+    <voterTable :voters="voterdata" />
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal'
+import modal from '../../components/modal';
+import voterTable from '../../components/voterTable';
 export default {
     components: {
-        modal
+        modal,
+        voterTable
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            voter: {
+                fullName: "",
+                email: "",
+                status: "not voted"
+            },
+            voterdata: []
         }
     },
     methods: {
@@ -55,6 +51,13 @@ export default {
         },
         closeModal() {
             this.showModal = false
+        },
+        showVoterData() {
+            console.log(this.voter);
+            this.voterdata.push({
+                ...this.voter
+            });
+            this.showModal = false;
         }
     }
 }
