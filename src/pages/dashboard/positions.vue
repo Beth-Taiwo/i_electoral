@@ -4,7 +4,7 @@
         <h3>All Positions</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-    <modal :close="closeModal" v-show="showModal">
+    <modal :close="closeModal" v-show="showModal" @form-save="showPositionData">
         <template v-slot:title>
             <h5 class="modal-title" id="exampleModalLabel">Add Position</h5>
         </template>
@@ -12,14 +12,14 @@
             <form>
                 <div class="form-group">
                     <label for="election-name" class="col-form-label">Position Title</label>
-                    <input type="text" class="form-control" id="election-name">
+                    <input v-model="position.positionName" type="text" class="form-control" id="election-name">
                 </div>
 
                 <div class="input-group mb-3 form-group">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Max candidate</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select v-model="position.noOfCandidates" class="custom-select" id="inputGroupSelect01">
                         <option selected>Choose...</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -31,18 +31,28 @@
         </template>
 
     </modal>
+    <positionTable :positions="positiondata" />
+
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal'
+import modal from '../../components/modal';
+import positionTable from '../../components/positionTable';
 export default {
     components: {
-        modal
+        modal,
+        positionTable
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            position: {
+                positionName: "",
+                noOfCandidates: null,
+
+            },
+            positiondata: []
         }
     },
     methods: {
@@ -51,6 +61,13 @@ export default {
         },
         closeModal() {
             this.showModal = false
+        },
+        showPositionData() {
+            console.log(this.position);
+            this.positiondata.push({
+                ...this.position
+            });
+            this.showModal = false;
         }
     }
 }

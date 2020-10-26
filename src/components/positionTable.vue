@@ -3,42 +3,38 @@
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th>Name</th>
-                <th>Tagline</th>
+                <th>Title</th>
+                <th>No of candidates</th>
                 <th> </th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="elect of elections" :key="elections.indexOf(elect)">
-                <td>{{ elect.electionName }}</td>
-                <td>{{ elect.tagline }}</td>
+            <tr v-for="post of positions" :key="positions.indexOf(post)">
+                <td>{{ post.positionName }}</td>
+                <td>{{ post.noOfCandidates }}</td>
 
                 <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData()">
                         <router-link to="/dashboard/election/election-detail"></router-link>Edit / Manage
                     </button></td>
-                <!-- <td><button type="button" name="delete" class="btn btn-danger btn-xs delete" @click="deleteData(row.id)">Delete</button></td>
-                 <td>{{ elect.startTime }}</td>
-                <td>{{ elect.endTime }}</td> -->
+
             </tr>
 
         </tbody>
     </table>
-
 </div>
 </template>
 
 <script>
 export default {
+    props: ["positions"],
     data() {
         return {
-            // electionD: []
+
         }
     },
-    props: ["elections", "callback"],
     methods: {
         fetchData() {
             console.log("Working");
-
         }
     }
 }

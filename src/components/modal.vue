@@ -13,7 +13,7 @@
             </div>
             <div class="modal-footer">
                 <button @click="close" type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" @click="submit">Save</button>
+                <button type="button" class="btn btn-primary" @click="modalSaved">Save</button>
             </div>
         </div>
     </div>
@@ -30,9 +30,9 @@ export default {
         }
     },
     methods: {
-        submit() {
-            alert("working")
-
+        modalSaved(event) {
+            event.preventDefault();
+            this.$emit("form-save")
         }
     }
 }

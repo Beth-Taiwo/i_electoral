@@ -21,6 +21,13 @@ const routes = [
         path: 'election',
         name: 'election',
         component: () => import('../pages/dashboard/election'),
+        children: [
+          {
+            path: 'election-detail',
+            name: 'election-detail',
+            component: () =>import('../components/electionDetails'),
+          }
+        ]
       },
       {
         path: 'positions',

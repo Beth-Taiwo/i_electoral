@@ -5,7 +5,7 @@
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
 
-    <modal :close="closeModal" v-show="showModal">
+    <modal :close="closeModal" v-show="showModal" @form-save="showCandidateData">
         <template v-slot:title>
             <h5 class="modal-title" id="exampleModalLabel">Add Candidate</h5>
         </template>
@@ -13,54 +13,56 @@
             <form>
                 <div class="form-group mb-0">
                     <label for="election-name" class="col-form-label">Candidate name</label>
-                    <input type="text" class="form-control" id="election-name">
+                    <input v-model="candidate.fullname" type="text" class="form-control" id="election-name">
                 </div>
                 <div class="form-group">
-                    <label for="message-text" class="col-form-label">Manifesto</label>
-                    <textarea class="form-control" value="Election theme" id="message-text"></textarea>
+                    <label for="message-text" class="col-form-label">Bio</label>
+                    <textarea class="form-control" v-model="candidate.Bio" id="message-text"></textarea>
                 </div>
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Position</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select v-model="candidate.position" class="custom-select" id="inputGroupSelect01">
                         <option selected>Choose...</option>
-                        <option value="1">President</option>
-                        <option value="2">Secretary</option>
-                        <option value="3">Treasurer</option>
+                        <option value="President">President</option>
+                        <option value="Secretary">Secretary</option>
+                        <option value="Treasurer">Treasurer</option>
                     </select>
                 </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                    </div>
-                </div>
                 <div>
-                    <input type="file" name="image" id="image">
+                    <input :src="candidate.img" type="file" name="image" id="image">
                 </div>
 
             </form>
         </template>
 
     </modal>
+    <candidateTable :candidates="candidatedata" />
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal'
+import modal from '../../components/modal';
+import candidateTable from '../../components/candidateTable';
 export default {
     components: {
-        modal
+        modal,
+        candidateTable
     },
     data() {
         return {
-            showModal: false
+            showModal: false,
+            candidate: {
+                fullname: "",
+                Bio: "",
+                position: "",
+                img: "",
+
+            },
+
+            candidatedata: []
         }
     },
     methods: {
@@ -69,6 +71,13 @@ export default {
         },
         closeModal() {
             this.showModal = false
+        },
+        showCandidateData() {
+            console.log(this.candidate);
+            this.candidatedata.push({
+                ...this.candidate
+            });
+            this.showModal = false;
         }
     }
 }
