@@ -7,6 +7,7 @@
                 <th>Tagline</th>
                 <th>Start Date-Time</th>
                 <th>End Date-Time</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -16,20 +17,21 @@
                 <td>{{ elect.startDateTime }}</td>
                 <td>{{ elect.endDateTime }}</td>
 
+                <td><button type="button" class="btn green-btn btn-xs start">Start</button></td>
                 <td>
                     <button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData(elect)">Manage
                     </button>
                     <!--<router-link class="btn btn-primary btn-xs edit" to="/dashboard/election/election-detail">Manage</router-link> -->
                 </td>
                 <td><button type="button" name="delete" class="btn btn-danger btn-xs delete" @click="deleteData(elections.indexOf('elect'))">Delete</button></td>
-
             </tr>
 
         </tbody>
     </table>
 
     <!--Update Modal -->
-    <updateModal :close="closeModal" v-show="editShowModal" @updateform-save="updatedfield">
+    <!-- <updateModal :close="closeModal" v-show="editShowModal" @updateform-save="updatedfield"> -->
+    <updateModal :close="closeModal" v-show="editShowModal">
         <template v-slot:title>
             <h5 class="modal-title" id="exampleModalLabel">Update Election</h5>
         </template>
@@ -106,3 +108,9 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.green-btn {
+    background: #27AE60;
+}
+</style>

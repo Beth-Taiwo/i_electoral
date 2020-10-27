@@ -64,7 +64,14 @@ const routes = [
   {
     path: '/voter-dash',
     name: 'voter-dash',
-    component: () => import('../voterPages/dashboard')
+    component: () => import('../voterPages/dashboard'),
+    children : [
+      {
+        path: '',
+        name: '',
+        component: () => import('../voterPages/dashboard/overview'),
+      },
+    ]
   }
 ]
 
