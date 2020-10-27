@@ -4,60 +4,45 @@
         <h3>All Elections</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-    <modal :close="closeModal" v-show="showModal" @form-save="showElectionData">
-        <template v-slot:title>
-            <h5 class="modal-title" id="exampleModalLabel">Add Election</h5>
-        </template>
-        <template v-slot:content>
-            <form>
-                <div class="form-group mb-0">
-                    <label for="election-name" class="col-form-label">Election name</label>
-                    <input v-model="election.electionName" type="text" class="form-control" id="election-name">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Tag line</label>
-                    <textarea v-model="election.tagline" class="form-control" id="message-text"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="">Start DateTime</label>
-                    <input v-model.lazy="election.startDateTime" type="datetime-local" name="startTime" id="startTime">
-                </div>
-                <div class="form-group">
-                    <label for="">End DateTime</label>
-                    <input v-model.lazy="election.endDateTime" type="datetime-local" name="endTime" id="endTime">
-                </div>
-            </form>
-        </template>
+    
+    <electionModal :onElectionCreated="onElectionCreated" :closeModal="closeModal" v-if="showModal"/>
 
-    </modal>
-
-    <entityTable :elections="electiondata" />
-
+    <entityTable v-if="electiondata.length > 0" :elections="electiondata" />
+    <p v-else style="text-align:center;padding:20px;color:rgb(73, 67, 67)">No election at this moment</p>
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal';
+
+import {getElections} from '../../services/apiService';
+
 import entityTable from '../../components/entityTable';
+import electionModal from '../../components/electionModal';
+
 export default {
     components: {
-        modal,
-        entityTable
+        // modal,
+        entityTable,
+        electionModal
     },
     //props: ["showModal"],
     data() {
         return {
             showModal: false,
             name: "",
-            election: {
-                electionName: "",
-                tagline: "",
-                startDateTime: "",
-                endDateTime: "",
-            },
             electiondata: []
         }
     },
+
+    mounted(){
+        getElections()
+        .then(response=>{
+            if(response?.data){
+                this.electiondata = response.data;
+            }
+        })
+    },
+
     methods: {
         showAddModal() {
             this.showModal = true;
@@ -65,38 +50,11 @@ export default {
         closeModal() {
             this.showModal = false
         },
-        showElectionData() {
-            console.log(this.election);
-            this.electiondata.push({
-                ...this.election
-            });
-            this.showModal = false;
-            this.election.electionName = "";
-            this.election.tagline = "";
-            this.election.startTime = "";
-            this.election.endTime = "";
-
+        onElectionCreated(election) {
+            this.electiondata.push(election);
+            this.closeModal();
         }
     },
-    beforeCreate() {
-        // alert("Before created")
-    },
-    created() {
-        // alert("Created")
-    },
-    beforeMount() {
-        // alert("Before mounted")
-    },
-    mounted() {
-        // alert("mounted");
-    },
-    beforeUpdate() {
-        // alert("before updated")
-    },
-    beforeUnmount() {
-        // alert("before unmounted")
-        console.log(this.electiondata);
-    }
 }
 </script>
 

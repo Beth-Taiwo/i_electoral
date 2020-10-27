@@ -1,6 +1,6 @@
 <template>
 <div style="width: inherit; height: inherit">
-    <voternav />
+    <!-- <voternav /> -->
     <section id="list">
         <ul>
             <li>Dashboard</li>
@@ -10,17 +10,17 @@
     <section id="content">
         <router-view />
     </section>
-    <footerView />
+    <!-- <footerView /> -->
 </div>
 </template>
 
 <script>
-import voternav from '../../components/voterNav';
-import footerView from '../../components/footer';
+// import voternav from '../../components/voterNav';
+// import footerView from '../../components/footer';
 export default {
     components: {
-        voternav,
-        footerView
+        // voternav,
+        // footerView
     }
 }
 </script>

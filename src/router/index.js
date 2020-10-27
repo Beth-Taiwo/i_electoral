@@ -56,23 +56,23 @@ const routes = [
       }
     ]
   },
-  {
-    path: '/voter-login',
-    name: 'voterLogin',
-    component: () => import('../pages/voterLogin')
-  },
-  {
-    path: '/voter-dash',
-    name: 'voter-dash',
-    component: () => import('../voterPages/dashboard'),
-    children : [
-      {
-        path: '',
-        name: '',
-        component: () => import('../voterPages/dashboard/overview'),
-      },
-    ]
-  }
+  // {
+  //   path: '/voter-login',
+  //   name: 'voterLogin',
+  //   component: () => import('../pages/voterLogin')
+  // },
+  // {
+  //   path: '/voter-dash',
+  //   name: 'voter-dash',
+  //   component: () => import('../voterPages/dashboard'),
+  //   children : [
+  //     {
+  //       path: '',
+  //       name: '',
+  //       component: () => import('../voterPages/dashboard/overview'),
+  //     },
+  //   ]
+  // }
 ]
 
 const router = createRouter({
