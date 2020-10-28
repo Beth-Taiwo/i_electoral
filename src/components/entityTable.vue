@@ -60,8 +60,8 @@
                     <input v-model="editElection.electionName" type="text" class="form-control" id="election-name">
                 </div>
                 <div class="form-group">
-                    <label for="message-text" class="col-form-label">Tag line</label>
-                    <textarea v-model="editElection.tagline" class="form-control" id="message-text"></textarea>
+                    <label for="message-text" class="col-form-label">Description</label>
+                    <textarea v-model="editElection.description" class="form-control" id="message-text"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Start DateTime</label>

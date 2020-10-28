@@ -14,19 +14,6 @@
                     <label for="election-name" class="col-form-label">Position Title</label>
                     <input v-model="position.positionName" type="text" class="form-control" id="election-name">
                 </div>
-
-                <div class="input-group mb-3 form-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Max candidate</label>
-                    </div>
-                    <select v-model="position.noOfCandidates" class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
-
             </form>
         </template>
 
@@ -49,7 +36,6 @@ export default {
             showModal: false,
             position: {
                 positionName: "",
-                noOfCandidates: null,
 
             },
             positiondata: []
