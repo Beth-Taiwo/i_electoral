@@ -4,16 +4,16 @@
         <thead class="thead-light">
             <tr>
                 <th>Name</th>
-                <th>Tagline</th>
+                <th>Description</th>
                 <th>Start Date-Time</th>
                 <th>End Date-Time</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(election, index) of elections" :key="index">
+            <tr v-for="(election) of elections" :key="election.name">
                 <td>{{ election.name }}</td>
-                <td>{{ election.tagline }}</td>
+                <td>{{ election.description }}</td>
                 <td>{{ election.start_time }}</td>
                 <td>{{ election.end_time }}</td>
 
@@ -21,7 +21,7 @@
                 <td>
                     <button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData(elect)">Manage
                     </button>
-                    <!--<router-link class="btn btn-primary btn-xs edit" to="/dashboard/election/election-detail">Manage</router-link> -->
+
                 </td>
                 <td><button type="button" name="delete" class="btn btn-danger btn-xs delete" @click="deleteData(elections.indexOf('elect'))">Delete</button></td>
             </tr>
@@ -42,8 +42,8 @@
                     <input v-model="editElection.electionName" type="text" class="form-control" id="election-name">
                 </div>
                 <div class="form-group">
-                    <label for="message-text" class="col-form-label">Tag line</label>
-                    <textarea v-model="editElection.tagline" class="form-control" id="message-text"></textarea>
+                    <label for="message-text" class="col-form-label">Description</label>
+                    <textarea v-model="editElection.description" class="form-control" id="message-text"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Start DateTime</label>

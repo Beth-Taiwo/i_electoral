@@ -4,8 +4,8 @@
         <h3>All Elections</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-    
-    <electionModal :onElectionCreated="onElectionCreated" :closeModal="closeModal" v-if="showModal"/>
+
+    <electionModal :onElectionCreated="onElectionCreated" :closeModal="closeModal" v-if="showModal" />
 
     <entityTable v-if="electiondata.length > 0" :elections="electiondata" />
     <p v-else style="text-align:center;padding:20px;color:rgb(73, 67, 67)">No election at this moment</p>
@@ -13,8 +13,9 @@
 </template>
 
 <script>
-
-import {getElections} from '../../services/apiService';
+import {
+    getElections
+} from '../../services/apiService';
 
 import entityTable from '../../components/entityTable';
 import electionModal from '../../components/electionModal';
@@ -34,13 +35,13 @@ export default {
         }
     },
 
-    mounted(){
+    mounted() {
         getElections()
-        .then(response=>{
-            if(response?.data){
-                this.electiondata = response.data;
-            }
-        })
+            .then(response => {
+                if (response?.data) {
+                    this.electiondata = response.data;
+                }
+            })
     },
 
     methods: {

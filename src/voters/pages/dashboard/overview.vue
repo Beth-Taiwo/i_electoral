@@ -12,19 +12,36 @@
                     <p>From: October 31st 2020 to October 31st 2020</p>
                 </div>
                 <div class="btn-wrapper">
-                    <button class="btn">VOTE</button>
+                    <button class="btn" @click="PopUpTrigger">VOTE</button>
                 </div>
             </div>
         </div>
 
     </div>
 
+    <popup :popUpModal="isPopUp" :onClose="popUpClose" />
 </div>
 </template>
 
 <script>
+import popup from '../../components/popup';
 export default {
-
+    components: {
+        popup
+    },
+    data() {
+        return {
+            isPopUp: false
+        }
+    },
+    methods: {
+        PopUpTrigger() {
+            this.isPopUp = true;
+        },
+        popUpClose() {
+            this.isPopUp = false
+        }
+    },
 }
 </script>
 

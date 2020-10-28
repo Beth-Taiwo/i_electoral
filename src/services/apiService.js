@@ -71,7 +71,7 @@ const elections = [
   {
     id: 1,
     name: "2020 Election",
-    tagline: "Some random string",
+    description: "Some random string",
     start_time: "2020/07/11 10:00:00",
     end_time: "2020/07/11 18:00:00",
   },
@@ -79,22 +79,48 @@ const elections = [
   {
     id: 2,
     name: "2020 Election 2",
-    tagline: "Some random string",
+    description: "Some random string",
     start_time: "2020/07/11 9:00:00",
     end_time: "2020/07/11 12:00:00",
   },
   {
     id: 3,
     name: "2020 Election 3",
-    tagline: "Some random string",
+    description: "Some random string",
     start_time: "2020/08/11 10:00:00",
     end_time: "2020/08/11 18:00:00",
   },
   {
     id: 4,
     name: "2020 Election 4",
-    tagline: "Some random string",
+    description: "Some random string",
     start_time: "2020/07/12 10:00:00",
     end_time: "2020/07/12 18:00:00",
   },
+];
+
+// create Positions
+
+export const createPosition =  function (position){
+
+  return new Promise(resolve=>{
+      setTimeout(() => {
+          const e = { ...position, id: 4 };
+          positions.unshift(e);
+        resolve({
+          data: e,
+          message : "Position created successful"
+        });
+      }, 2000);
+  })
+}
+
+
+const positions = [
+{
+  id: 1,
+  title: "President"
+},
+
+
 ];
