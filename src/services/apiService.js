@@ -90,14 +90,28 @@ export const updateElection = function(id, updatedElection) {
 
 
 export const deleteElection =  function(id){
-                                            //  return axiosClient.delete('election/'+id);
+//  return axiosClient.delete('election/'+id);
+return new Promise((resolve) => {
+  setTimeout(() => {
+    elections =  elections.map(del_election=>{
+      if(del_election.id === id)
+      {
+        return deleteElection;
+      }
+      return del_election;
+    })   
+    resolve({
+      data: {...deleteElection},
+      message: "Election deleted successful",
+    });
+  }, 2000);
+});
 }
 
 let elections = [
   {
     id: 1,
     name: "2020 Election",
-    description: "Some random string",
     start_time: "2020/07/11 10:00:00",
     end_time: "2020/07/11 18:00:00",
   },
@@ -105,33 +119,42 @@ let elections = [
   {
     id: 2,
     name: "2020 Election 2",
-    description: "Some random string",
     start_time: "2020/07/11 9:00:00",
     end_time: "2020/07/11 12:00:00",
   },
   {
     id: 3,
     name: "2020 Election 3",
-    description: "Some random string",
     start_time: "2020/08/11 10:00:00",
     end_time: "2020/08/11 18:00:00",
   },
   {
     id: 4,
     name: "2020 Election 4",
-    description: "Some random string",
     start_time: "2020/07/12 10:00:00",
     end_time: "2020/07/12 18:00:00",
   },
 ];
 
 // create Positions
+export const getPositions = function(){
+
+  // return axiosClient.get('/positions');
+  
+  return new Promise((resolve)=>{
+      setTimeout(()=>{
+          resolve({
+            data: [...positions],
+          });
+      },2000)
+  })
+}
 
 export const createPosition =  function (position){
 
   return new Promise(resolve=>{
       setTimeout(() => {
-          const e = { ...position, id: 4 };
+          const e = { ...position, id: 12 };
           positions.unshift(e);
         resolve({
           data: e,
@@ -141,12 +164,37 @@ export const createPosition =  function (position){
   })
 }
 
+export const updatePosition = function(id, updatedPosition) {
 
-const positions = [
+  // return axiosClient.patch('position/'+id,updatedPosition);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      positions =  positions.map(x_position=>{
+        if(x_position.id === id)
+        {
+          return updatedPosition;
+        }
+        return x_position;
+      })   
+      resolve({
+        data: {...updatedPosition},
+        message: "Position updated successful",
+      });
+    }, 2000);
+  });
+};
+
+
+let positions = [
 {
   id: 1,
   title: "President"
 },
+{
+  id:2,
+  title: "Secretary"
+}
 
 
 ];

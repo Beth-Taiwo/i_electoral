@@ -1,13 +1,13 @@
 <template>
-<modal :close="closeModal" v-show="showModal" @form-save="showPositionData">
+<modal :close="closeModal" @formsave="addPosition">
     <template v-slot:title>
-        <h5 class="modal-title" id="exampleModalLabel">Add Position</h5>
+        <h5 class="modal-title">Add Position</h5>
     </template>
     <template v-slot:content>
         <form>
             <div class="form-group">
                 <label for="election-name" class="col-form-label">Position Title</label>
-                <input v-model="position.positionName" type="text" class="form-control" id="election-name">
+                <input v-model="position.title" type="text" class="form-control" id="election-name">
             </div>
         </form>
     </template>
@@ -17,9 +17,47 @@
 
 <script>
 import Modal from '../components/modal';
+import {
+    createPosition,
+    updatePosition
+} from "../services/apiService";
 export default {
+    props: ['closeModal', 'onPositionCreated', 'onPositionUpdated', 'editablePosition', ],
     components: {
         Modal
-    }
+    },
+    data() {
+        return {
+            position: {},
+        }
+    },
+    mounted() {
+        if (this.editablePosition) {
+            this.position = {
+                ...this.editablePosition
+            }
+        }
+    },
+    methods: {
+        addPosition() {
+            if (!this.editablePosition) {
+                createPosition(this.position)
+                    .then(response => {
+                        if (response?.data) {
+                            alert(response.message);
+                            this.onPositionCreated(response.data);
+                        }
+                    })
+            } else {
+                updatePosition(this.position.id, this.position)
+                    .then(response => {
+                        if (response?.data) {
+                            alert(response.message);
+                            this.onPositionUpdated(response.data);
+                        }
+                    })
+            }
+        }
+    },
 }
 </script>

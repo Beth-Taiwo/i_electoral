@@ -3,15 +3,14 @@
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th>Title</th>
+                <th colspan="3">Title</th>
                 <th> </th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="post of positions" :key="positions.indexOf(post)">
-                <td>{{ post.positionName }}</td>
-                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData()">
-                        <router-link to="/dashboard/election/election-detail"></router-link>Edit / Manage
+            <tr v-for="position of positions" :key="position.id">
+                <td>{{ position.title }}</td>
+                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="()=> onManagePosition(position)">Manage
                     </button></td>
                 <td><button type="button" name="addCandidate" class="btn btn-primary btn-xs edit" @click="fetchData()">
                         Add Candidate
@@ -25,14 +24,17 @@
 
 <script>
 export default {
-    props: ["positions"],
+    props: ["positions", "update", "onManagePosition"],
     data() {
         return {
-
+            editShowModal: false,
+            positiondata: [],
+            editPosition: {}
         }
     },
     methods: {
-        fetchData() {
+        closeModal() {
+            this.editShowModal = false;
             console.log("Working");
         }
     }

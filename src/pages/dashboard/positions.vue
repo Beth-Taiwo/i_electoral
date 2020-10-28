@@ -4,42 +4,39 @@
         <h3>All Positions</h3>
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-    <modal :close="closeModal" v-show="showModal" @form-save="showPositionData">
-        <template v-slot:title>
-            <h5 class="modal-title" id="exampleModalLabel">Add Position</h5>
-        </template>
-        <template v-slot:content>
-            <form>
-                <div class="form-group">
-                    <label for="election-name" class="col-form-label">Position Title</label>
-                    <input v-model="position.positionName" type="text" class="form-control" id="election-name">
-                </div>
-            </form>
-        </template>
-
-    </modal>
-    <positionTable :positions="positiondata" />
-
+    <positionModal :editablePosition="editablePosition" :onPositionCreated="onPositionCreated" :onPositionUpdated="onPositionUpdated" :closeModal="closeModal" v-if="showModal" />
+    <positionTable v-if="positiondata.length > 0" :positions="positiondata" :onManagePosition="managePosition" />
+    <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
+        No election at this moment
+    </p>
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal';
+import {
+    getPositions
+} from "../../services/apiService";
 import positionTable from '../../components/positionTable';
+import positionModal from '../../components/positionModal';
 export default {
     components: {
-        modal,
+        positionModal,
         positionTable
     },
     data() {
         return {
             showModal: false,
-            position: {
-                positionName: "",
-
-            },
-            positiondata: []
+            title: "",
+            positiondata: [],
+            editablePosition: null,
         }
+    },
+    mounted() {
+        getPositions().then((res) => {
+            if (res?.data) {
+                this.positiondata = res.data;
+            }
+        })
     },
     methods: {
         showAddModal() {
@@ -48,13 +45,24 @@ export default {
         closeModal() {
             this.showModal = false
         },
-        showPositionData() {
-            console.log(this.position);
-            this.positiondata.push({
-                ...this.position
+        onPositionCreated(position) {
+            this.positiondata = [...this.positiondata, position];
+            this.closeModal();
+        },
+
+        onPositionUpdated(position) {
+            this.positiondata = this.positiondata.map(x_position => {
+                if (x_position.id === position.id) {
+                    return position;
+                }
+                return x_position;
             });
-            this.showModal = false;
-        }
+            this.closeModal();
+        },
+        managePosition(position) {
+            this.editablePosition = position;
+            this.showAddModal();
+        },
     }
 }
 </script>
