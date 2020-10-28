@@ -1,0 +1,33 @@
+image: registry.gitlab.com/walulel-devs/wainsight_client:latest
+
+before_script:
+  - apk add --no-cache rsync openssh
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_dsa
+  - chmod 600 ~/.ssh/id_dsa
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  
+
+variables:
+  PRODUCTION_SERVER:  "deployer@ec2-54-202-131-4.us-west-2.compute.amazonaws.com"
+
+stages:
+  - prod
+
+
+deploy_production:
+  stage: prod
+  script:
+    - git checkout master
+    - npm install --progress=false
+    - npm run build
+    - echo "sync app to server..."
+    - rsync -rav --delete dist/ $PRODUCTION_SERVER:/var/www/ielection/dist
+    - echo "sync done....ssh to server and run script."
+    - ssh $PRODUCTION_SERVER "cd /var/www && ./deploy-client-app.sh ielection && exit"
+  environment:
+    name: production
+    url: https://test.walulel.com
+  when: always
+  only:
+    - master
