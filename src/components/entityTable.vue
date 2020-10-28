@@ -11,11 +11,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(elect, index) of elections" :key="index">
-                <td>{{ elect.electionName }}</td>
-                <td>{{ elect.tagline }}</td>
-                <td>{{ elect.startDateTime }}</td>
-                <td>{{ elect.endDateTime }}</td>
+            <tr v-for="(election, index) of elections" :key="index">
+                <td>{{ election.name }}</td>
+                <td>{{ election.tagline }}</td>
+                <td>{{ election.start_time }}</td>
+                <td>{{ election.end_time }}</td>
 
                 <td><button type="button" class="btn green-btn btn-xs start">Start</button></td>
                 <td>

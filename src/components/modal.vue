@@ -32,7 +32,7 @@ export default {
     methods: {
         modalSaved(event) {
             event.preventDefault();
-            this.$emit("form-save")
+            this.$emit("formsave")
         }
     }
 }
