@@ -1,7 +1,7 @@
 <template>
   <modal :close="closeModal" @formsave="addElection">
     <template v-slot:title>
-      <h5 class="modal-title" id="exampleModalLabel">Add Election</h5>
+      <h5 class="modal-title">{{formTitle}}</h5>
     </template>
     <template v-slot:content>
       <form>
@@ -49,7 +49,7 @@
 
 <script>
 import Modal from '../components/modal';
-import { createElection } from "../services/apiService";
+import { createElection, updateElection } from "../services/apiService";
 
 export default {
     components : {
@@ -57,21 +57,42 @@ export default {
     },
     data(){
         return {
-            election :{}
+            election : {}
         }
     },
 
+    computed: {
+      formTitle(){
+        return this.editableElection ?  'Update Election' : 'Add Election'
+      }
+    },
+
+
+    mounted(){
+      this.editableElection ?  this.election =  {...this.editableElection} : {};
+    },
     methods:{
         addElection(){
-            createElection(this.election)
+           if(!this.editableElection){
+              createElection(this.election)
             .then(response=>{
                 if(response?.data){
                     alert(response.message);
                     this.onElectionCreated(response.data);
                 }
             })
+           }
+           else {
+             updateElection(this.election.id,this.election)
+             .then(response=>{
+                if(response?.data){
+                    alert(response.message);
+                    this.onElectionUpdated(response.data);
+                }
+            })
+           }
         }
     },
-    props : ['closeModal','onElectionCreated']
+    props : ['closeModal','onElectionCreated','onElectionUpdated','editableElection']
 }
 </script>

@@ -45,7 +45,7 @@ export const getElections = function(){
     return new Promise((resolve)=>{
         setTimeout(()=>{
             resolve({
-              data: elections,
+              data: [...elections],
             });
         },2000)
     })
@@ -57,7 +57,7 @@ export const createElection =  function (election){
     return new Promise(resolve=>{
         setTimeout(() => {
             const e = { ...election, id: 1111 };
-            elections.unshift(e);
+            elections.push(e);
           resolve({
             data: e,
             message : "Election created successful"
@@ -67,7 +67,33 @@ export const createElection =  function (election){
 }
 
 
-const elections = [
+export const updateElection = function(id, updatedElection) {
+
+  // return axiosClient.patch('election/'+id,updatedElection);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      elections =  elections.map(x_election=>{
+        if(x_election.id === id)
+        {
+          return updatedElection;
+        }
+        return x_election;
+      })   
+      resolve({
+        data: {...updatedElection},
+        message: "Election updated successful",
+      });
+    }, 2000);
+  });
+};
+
+
+export const deleteElection =  function(id){
+                                            //  return axiosClient.delete('election/'+id);
+}
+
+let elections = [
   {
     id: 1,
     name: "2020 Election",
