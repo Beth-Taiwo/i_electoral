@@ -10,14 +10,13 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="candidate of candidates" :key="candidates.indexOf(candidate)">
+            <tr v-for="candidate of candidates" :key="candidate.id">
                 <td>{{ candidate.img }}</td>
                 <td>{{ candidate.fullname }}</td>
                 <td>{{ candidate.Bio }}</td>
                 <td>{{ candidate.position }}</td>
 
-                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData()">
-                        <router-link to="/dashboard/election/election-detail"></router-link>Edit / Manage
+                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="()=> onManageCandidate(candidate)">Manage
                     </button></td>
 
             </tr>
@@ -29,14 +28,17 @@
 
 <script>
 export default {
-    props: ["candidates"],
+    props: ["candidates", "update", "onManageCandidate"],
     data() {
         return {
-
+            editShowModal: false,
+            candidatedata: [],
+            editCandidate: {}
         }
     },
     methods: {
-        fetchData() {
+        closeModal() {
+            this.editShowModal = false;
             console.log("Working");
         }
     }

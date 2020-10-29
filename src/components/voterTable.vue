@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="voter of voters" :key="voters.indexOf(voter)">
+            <tr v-for="voter of voters" :key="voter.id">
                 <td>{{ voter.fullName }}</td>
                 <td>{{ voter.email }}</td>
                 <td>{{ voter.status }}</td>

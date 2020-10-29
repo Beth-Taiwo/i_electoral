@@ -14,7 +14,7 @@
                             <h4>Elections</h4>
                         </div>
 
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                             <i class="fa fa-fw fa-clipboard"></i>
                             <h4>Positions</h4>
                         </div>
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                             <i class="fa fa-fw fa-group"></i>
                             <h4>Candidates</h4>
                         </div>
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                             <i class="fa fa-fw fa-user-plus"></i>
                             <h4>Voters</h4>
                         </div>
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                             <i class="bx bx-poll bx-rotate-270"></i>
                             <h4>Results</h4>
                         </div>
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                             <i class="material-icons"> settings </i>
                             <h4>Setting</h4>
                         </div>
-                        <a href="#" class="btn btn-block">View / manage</a>
+                        <a href="#" class="btn btn-block disabled">View / manage</a>
                     </div>
                 </div>
             </div>

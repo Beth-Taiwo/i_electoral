@@ -5,65 +5,40 @@
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
 
-    <modal :close="closeModal" v-show="showModal" @form-save="showCandidateData">
-        <template v-slot:title>
-            <h5 class="modal-title" id="exampleModalLabel">Add Candidate</h5>
-        </template>
-        <template v-slot:content>
-            <form>
-                <div class="form-group mb-0">
-                    <label for="election-name" class="col-form-label">Candidate name</label>
-                    <input v-model="candidate.fullname" type="text" class="form-control" id="election-name">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="col-form-label">Bio</label>
-                    <textarea class="form-control" v-model="candidate.Bio" id="message-text"></textarea>
-                </div>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="inputGroupSelect01">Position</label>
-                    </div>
-                    <select v-model="candidate.position" class="custom-select" id="inputGroupSelect01">
-                        <option selected>Choose...</option>
-                        <option value="President">President</option>
-                        <option value="Secretary">Secretary</option>
-                        <option value="Treasurer">Treasurer</option>
-                    </select>
-                </div>
-                <div>
-                    <input :src="candidate.img" type="file" name="image" id="image">
-                </div>
-
-            </form>
-        </template>
-
-    </modal>
-    <candidateTable :candidates="candidatedata" />
+    <candidateModal :editableCandidate="editableCandidate" :onCandidateCreated="onCandidateCreated" :onCandidateUpdated="onCandidateUpdated" :closeModal="closeModal" v-if="showModal" />
+    <candidateTable v-if="candidatedata.length > 0" :candidates="candidatedata" :onManageCandidate="manageCandidate" />
+    <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
+        No candidate at this moment
+    </p>
 </div>
 </template>
 
 <script>
-import modal from '../../components/modal';
+import {
+    getCandidates
+} from "../../services/apiService";
 import candidateTable from '../../components/candidateTable';
+import candidateModal from '../../components/candidateModal';
+
 export default {
     components: {
-        modal,
+        candidateModal,
         candidateTable
     },
     data() {
         return {
             showModal: false,
-            candidate: {
-                fullname: "",
-                Bio: "",
-                position: "",
-                img: "",
-
-            },
-
+            fullname: "",
+            editableCandidate: null,
             candidatedata: []
         }
+    },
+    mounted() {
+        getCandidates().then((res) => {
+            if (res?.data) {
+                this.candidatedata = res.data;
+            }
+        })
     },
     methods: {
         showAddModal() {
@@ -72,13 +47,24 @@ export default {
         closeModal() {
             this.showModal = false
         },
-        showCandidateData() {
-            console.log(this.candidate);
-            this.candidatedata.push({
-                ...this.candidate
+        onCandidateCreated(candidate) {
+            this.candidatedata = [...this.candidatedata, candidate];
+            this.closeModal();
+        },
+
+        onCandidateUpdated(candidate) {
+            this.candidatedata = this.candidatedata.map(x_candidate => {
+                if (x_candidate.id === candidate.id) {
+                    return candidate;
+                }
+                return x_candidate;
             });
-            this.showModal = false;
-        }
+            this.closeModal();
+        },
+        manageCandidate(candidate) {
+            this.editableCandidate = candidate;
+            this.showAddModal();
+        },
     }
 }
 </script>

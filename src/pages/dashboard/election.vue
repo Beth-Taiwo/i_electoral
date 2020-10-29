@@ -27,7 +27,6 @@ export default {
         entityTable,
         electionModal,
     },
-    //props: ["showModal"],
     data() {
         return {
             showModal: false,

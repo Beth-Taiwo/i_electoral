@@ -7,7 +7,7 @@
     <positionModal :editablePosition="editablePosition" :onPositionCreated="onPositionCreated" :onPositionUpdated="onPositionUpdated" :closeModal="closeModal" v-if="showModal" />
     <positionTable v-if="positiondata.length > 0" :positions="positiondata" :onManagePosition="managePosition" />
     <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
-        No election at this moment
+        No position at this moment
     </p>
 </div>
 </template>

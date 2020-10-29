@@ -1,200 +1,220 @@
-// import axios from 'axios';
+import axios from 'axios';
 
 
-// const axiosClient =  axios.create({
-//     baseURL : 'http://api.backend.com',
-//     timeout: 30000
-// });
+const axiosClient =  axios.create({
+    baseURL : 'https://test.api.walulel.com/api',
+    timeout: 30000
+});
+axiosClient.interceptors.response.use((response)=>{
+      // return{
+        
+          // data:response.data,
+          // status: response.status,
+          // text:response.statusText,
+          // id:response.id
+      // }
+      console.log(response)
+  },(error)=>{
+    // console.log(error.response.status);
+    let status = error.response.status;
+    switch(status){
+      case 401:
+        console.log("unauthenication");
+        break;
+      case 422:
+        console.log("Validation error");
+        break;
+      case 403:
+        console.log("Unauthorized access");
+        break;
+      case 429:
+        console.log("Too many request");
+        break;
+  
+    }
 
-
+  }
+  )
 
 export const adminLogin = function(credentials){
-    // return axiosClient.post('/login',credentials);
-
-
-    // mimic login flow
-    return new Promise((resolve,reject)=>{
-
-        const username = "test@walulel.com",
-        password = "password123";
-
-        setTimeout(()=>{
-            if(username == credentials.username && password == credentials.password){
-                resolve({
-                  data: {
-                    token: "RANDOM_TOKEN",
-                    user: {
-                      name: "test user",
-                      email: "test@walulel.com",
-                      role: "admin",
-                    },
-                  },
-                });
-            }else{
-                reject("Incorrect username or password");
-            }
-        }, 4000)
-    })
+    return axiosClient.post('/admin/auth/login',credentials);
 }
 
 
 export const getElections = function(){
 
-    // return axiosClient.get('/elections');
+    return axiosClient.get('/elections');
     
-    return new Promise((resolve)=>{
-        setTimeout(()=>{
-            resolve({
-              data: [...elections],
-            });
-        },2000)
-    })
+}
+export const viewElection = function(id){
+  return axiosClient.get('/elections/' + id)
 }
 
-
 export const createElection =  function (election){
-
-    return new Promise(resolve=>{
-        setTimeout(() => {
-            const e = { ...election, id: 1111 };
-            elections.push(e);
-          resolve({
-            data: e,
-            message : "Election created successful"
-          });
-        }, 2000);
-    })
+return axiosClient.post('/elections',election)
+  
 }
 
 
 export const updateElection = function(id, updatedElection) {
 
-  // return axiosClient.patch('election/'+id,updatedElection);
+  return axiosClient.patch('elections/'+id,updatedElection);
 
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      elections =  elections.map(x_election=>{
-        if(x_election.id === id)
-        {
-          return updatedElection;
-        }
-        return x_election;
-      })   
-      resolve({
-        data: {...updatedElection},
-        message: "Election updated successful",
-      });
-    }, 2000);
-  });
+ 
 };
 
 
 export const deleteElection =  function(id){
-//  return axiosClient.delete('election/'+id);
-return new Promise((resolve) => {
-  setTimeout(() => {
-    elections =  elections.map(del_election=>{
-      if(del_election.id === id)
-      {
-        return deleteElection;
-      }
-      return del_election;
-    })   
-    resolve({
-      data: {...deleteElection},
-      message: "Election deleted successful",
-    });
-  }, 2000);
-});
+ return axiosClient.delete('elections/'+id);
+
 }
 
-let elections = [
-  {
-    id: 1,
-    name: "2020 Election",
-    start_time: "2020/07/11 10:00:00",
-    end_time: "2020/07/11 18:00:00",
-  },
-
-  {
-    id: 2,
-    name: "2020 Election 2",
-    start_time: "2020/07/11 9:00:00",
-    end_time: "2020/07/11 12:00:00",
-  },
-  {
-    id: 3,
-    name: "2020 Election 3",
-    start_time: "2020/08/11 10:00:00",
-    end_time: "2020/08/11 18:00:00",
-  },
-  {
-    id: 4,
-    name: "2020 Election 4",
-    start_time: "2020/07/12 10:00:00",
-    end_time: "2020/07/12 18:00:00",
-  },
-];
 
 // create Positions
-export const getPositions = function(){
+export const getPositions = function(electionId){
 
-  // return axiosClient.get('/positions');
+  return axiosClient.get('/elections/'+ electionId +'/positions');
+  
+ 
+}
+
+export const createPosition =  function (electionId,position){
+return axiosClient.post('/elections/'+ electionId +'/positions', position)
+ 
+}
+export const viewPosition = function(positionId){
+  return axiosClient.get('/positions/'+positionId);
+}
+
+export const updatePosition = function(id, updatedPosition) {
+
+  return axiosClient.patch('/positions/'+id,updatedPosition);
+
+ 
+};
+export const deletePosition = function(positionId){
+  return axiosClient.delete('/positions/'+positionId);
+}
+
+//create candidate
+export const createCandidate= function(positionId,candidate){
+  return axiosClient.post('/positions/'+ positionId + '/candidates', candidate);
+}
+
+export const updateCandidate = function(candidateId, updateCandidate){
+  return axiosClient.patch('/candidates/' + candidateId, updateCandidate);
+}
+
+export const viewCandidate = function(candidateId){
+  return axiosClient.get('/candidates/'+ candidateId);
+}
+
+export const deleteCandidate = function(candidateId){
+  return axiosClient.delete('/candidates/'+ candidateId);
+}
+
+export const updateCandidatePicture = function(candidateId,img){
+  return axiosClient.post('/candidates/'+ candidateId+ '/update-profile-picture', img)
+}
+export const listAllCandidates = function(){
+  return axiosClient.get('/candidates')
+}
+
+//create voter
+export const registerVoter = function(voter){
+  return axiosClient.post('/voters', voter)
+}
+export const viewVoter = function(voterId){
+  return axiosClient.get('/voters/' + voterId);
+}
+export const updateVoter =  function(voterId, updateVoter){
+  return axiosClient.patch('/voters/'+ voterId,updateVoter)
+}
+export const deleteVoter = function(voterId){
+  return axiosClient.delete('/voters/' + voterId);
+}
+export const listAllVoters = function(){
+  return axiosClient.get('/voters');
+}
+
+//votes
+export const createNewVote = function(electionId, vote){
+  return axiosClient.post('/elections/' + electionId+ '/votes', vote);
+}
+
+//view results
+export const listResults = function(electionId){
+  return axiosClient.get('/elections/' + electionId + '/results');
+}
+/*
+
+// create candidate
+export const getCandidates = function(){
+
+  // return axiosClient.get('/candidates');
   
   return new Promise((resolve)=>{
       setTimeout(()=>{
           resolve({
-            data: [...positions],
+            data: [...candidates],
           });
       },2000)
   })
 }
 
-export const createPosition =  function (position){
+export const createCandidate =  function (candidate){
 
   return new Promise(resolve=>{
       setTimeout(() => {
-          const e = { ...position, id: 12 };
-          positions.unshift(e);
+          const e = { ...candidate, id: 12 };
+          candidates.unshift(e);
         resolve({
           data: e,
-          message : "Position created successful"
+          message : "candidate created successful"
         });
       }, 2000);
   })
 }
 
-export const updatePosition = function(id, updatedPosition) {
+export const updateCandidate = function(id, updatedCandidate) {
 
-  // return axiosClient.patch('position/'+id,updatedPosition);
+  // return axiosClient.patch('candidate/'+id,updatedCandidate);
 
   return new Promise((resolve) => {
     setTimeout(() => {
-      positions =  positions.map(x_position=>{
-        if(x_position.id === id)
+      candidates =  candidates.map(x_candidate=>{
+        if(x_candidate.id === id)
         {
-          return updatedPosition;
+          return updatedCandidate;
         }
-        return x_position;
+        return x_candidate;
       })   
       resolve({
-        data: {...updatedPosition},
-        message: "Position updated successful",
+        data: {...updatedCandidate},
+        message: "Candidate updated successful",
       });
     }, 2000);
   });
 };
 
 
-let positions = [
+let candidates = [
 {
   id: 1,
-  title: "President"
+  fullname: "Mr Somebody",
+  Bio: "Sometext that describes .......",
+  position: "president",
+  img: ""
 },
 {
   id:2,
-  title: "Secretary"
+  fullname: "Mr Somebody",
+  Bio: "Sometext that describes .......",
+  position: "Secretary",
+  img: ""
 }
 
 
 ];
+
+*/

@@ -3,7 +3,7 @@
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th colspan="3">Title</th>
+                <th colspan="2" style="text-align:center">Title</th>
                 <th> </th>
             </tr>
         </thead>

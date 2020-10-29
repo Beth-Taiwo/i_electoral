@@ -16,12 +16,12 @@
                 <td>{{ election.end_time }}</td>
 
                 <td>
-                    <button type="button" class="btn green-btn btn-xs start">
+                    <button type="button" style="color:#fff;" class="btn green-btn btn-xs">
                         Start
                     </button>
                 </td>
                 <td>
-                    <button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="() => onManageElection(election)">
+                    <button type="button" style="color:#fff;" name="edit" class="btn btn-primary btn-xs edit" @click="() => onManageElection(election)">
                         Manage
                     </button>
 
@@ -39,15 +39,13 @@
 </template>
 
 <script>
-// import updateModal from './updateModal'
 export default {
     props: ["elections", "update", "onManageElection", "ondelete"],
     components: {
-        // updateModal
+
     },
     data() {
         return {
-            // electionD: []
             editShowModal: false,
             editElection: {},
             electiondata: [],
