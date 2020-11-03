@@ -15,7 +15,7 @@
 
 <script>
 import {
-    getCandidates
+    viewCandidate
 } from "../../services/apiService";
 import candidateTable from '../../components/candidateTable';
 import candidateModal from '../../components/candidateModal';
@@ -34,9 +34,9 @@ export default {
         }
     },
     mounted() {
-        getCandidates().then((res) => {
-            if (res?.data) {
-                this.candidatedata = res.data;
+        viewCandidate().then((res) => {
+            if (res?.data.data) {
+                this.candidatedata = res.data.data;
             }
         })
     },

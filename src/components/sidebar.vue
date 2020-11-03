@@ -11,7 +11,7 @@
         <router-link to="/dashboard"><i class="bx bxs-dashboard"></i> Dashboard</router-link>
     </div>
     <div>
-        <router-link to="/dashboard/election"><i class="material-icons">text_snippet</i>Election</router-link>
+        <router-link to="/dashboard/elections"><i class="material-icons">text_snippet</i>Election</router-link>
     </div>
     <div>
         <router-link to="/dashboard/positions"><i class="fa fa-fw fa-clipboard"></i> Positions</router-link>

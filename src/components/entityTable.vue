@@ -4,18 +4,18 @@
         <thead class="thead-light">
             <tr>
                 <th>Name</th>
-                <th>Start period</th>
-                <th>End period</th>
-                <th colspan="3">Action</th>
+                <th colspan="4" style="text-align: center">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="election of elections" :key="election.id">
                 <td>{{ election.name }}</td>
-                <td>{{ election.start_time }}</td>
-                <td>{{ election.end_time }}</td>
-
                 <td>
+
+                    <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline"> click for details</router-link>
+
+                </td>
+                <td style="text-align: center">
                     <button type="button" style="color:#fff;" class="btn green-btn btn-xs">
                         Start
                     </button>
@@ -76,5 +76,9 @@ export default {
 <style scoped>
 .green-btn {
     background: #27ae60;
+}
+
+.orange-btn {
+    background: #EF7F19;
 }
 </style>

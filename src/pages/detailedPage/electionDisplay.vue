@@ -4,7 +4,6 @@
         <h3>All Elections</h3>
         <button><i class="bx bx-plus-medical" @click="showAddModal"></i></button>
     </div>
-
     <electionModal :editableElection="editableElection" :onElectionCreated="onElectionCreated" :onElectionUpdated="onElectionUpdated" :onElectionDel="onElectionDel" :closeModal="closeModal" v-if="showModal" />
 
     <entityTable v-if="electiondata.length > 0" :elections="electiondata" :onManageElection="manageElection" :ondelete="deleteElection" />
@@ -21,7 +20,6 @@ import {
 
 import entityTable from "../../components/entityTable";
 import electionModal from "../../components/electionModal";
-
 export default {
     components: {
         entityTable,
@@ -38,8 +36,8 @@ export default {
 
     mounted() {
         getElections().then((response) => {
-            if (response?.data) {
-                this.electiondata = response.data;
+            if (response?.data.data) {
+                this.electiondata = response.data.data;
             }
         });
     },
@@ -50,6 +48,7 @@ export default {
         },
         closeModal() {
             this.showModal = false;
+            this.editableElection = null;
         },
         onElectionCreated(election) {
             this.electiondata = [...this.electiondata, election];

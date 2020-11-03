@@ -3,8 +3,24 @@ import axios from 'axios';
 
 const axiosClient =  axios.create({
     baseURL : 'https://test.api.walulel.com/api',
-    timeout: 30000
+    // timeout: 60000
 });
+axiosClient.interceptors.request.use((request) => {
+  
+  const token = localStorage.getItem('access_token');
+  if(token){
+    let c = JSON.parse(token);
+    request.headers = { 
+      'Authorization': `Bearer ${c.token}`,
+      'Accept': 'application/json',
+    }
+
+  }
+
+  return request;
+}
+);
+
 axiosClient.interceptors.response.use((response)=>{
       return response;
   },(error)=>{
@@ -33,42 +49,31 @@ export const adminLogin = function(credentials){
     return axiosClient.post('/admin/auth/login',credentials);
 }
 
-
+//Election
 export const getElections = function(){
-
     return axiosClient.get('/elections');
-    
 }
 export const viewElection = function(id){
   return axiosClient.get('/elections/' + id)
 }
 
 export const createElection =  function (election){
-return axiosClient.post('/elections',election)
-  
+  return axiosClient.post('/elections',election)
 }
 
 
 export const updateElection = function(id, updatedElection) {
-
   return axiosClient.patch('elections/'+id,updatedElection);
-
- 
 };
-
 
 export const deleteElection =  function(id){
  return axiosClient.delete('elections/'+id);
-
 }
 
 
 // create Positions
 export const getPositions = function(electionId){
-
   return axiosClient.get('/elections/'+ electionId +'/positions');
-  
- 
 }
 
 export const createPosition =  function (electionId,position){

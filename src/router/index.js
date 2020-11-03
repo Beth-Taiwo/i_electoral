@@ -46,19 +46,24 @@ const routes = [
         path: '',
         name: '',
         component: () => import('../pages/dashboard/overview'),
-        children : [
-          {
-            path: '/list-election',
-            name: 'list-election',
-            component: () => import('../pages/detailedPage/listElection')
-          }
-        ],
+       
       },
       {
-        path: 'election',
-        name: 'election',
-        component: () => import('../pages/dashboard/election'),
-
+        path: 'elections',
+        name: 'elections',
+        component: () => import('../pages/dashboard/elections'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () => import('../pages/detailedPage/electionDisplay')
+          },
+          {
+            path: ':id',
+            name: 'view-election',
+            component: () => import('../pages/detailedPage/viewElection')
+          },
+        ]
       },
       {
         path: 'positions',

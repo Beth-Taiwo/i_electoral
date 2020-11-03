@@ -7,7 +7,7 @@
         </button>
         <div class="dropdown-content">
             <a href="#">Profile</a>
-            <a href="#">Logout</a>
+            <a @click.prevent="logOut" href="#">Log out</a>
         </div>
     </div>
 </nav>
@@ -18,6 +18,12 @@ export default {
     data() {
         return {
 
+        }
+    },
+    methods: {
+        logOut() {
+            this.$router.push("/login");
+            console.log("Logout");
         }
     }
 

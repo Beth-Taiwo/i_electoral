@@ -53,7 +53,7 @@ export default {
             if (!validEmail(this.email)) {
                 this.errorMessage = "Provide valid email";
                 this.errorTarget = "email";
-            } else if (!password || password.length < 6) {
+            } else if (!this.password || this.password.length < 6) {
                 this.errorMessage = "Password should be at least 6 characters";
                 this.errorTarget = "password";
             }

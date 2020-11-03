@@ -9,14 +9,18 @@
                 <label for="election-name" class="col-form-label">Election name</label>
                 <input v-model="election.name" type="text" class="form-control" id="election-name" />
             </div>
+            <div class="form-group">
+                <label for="election-description" class="col-form-label">Description</label>
+                <input v-model="election.description" type="text" class="form-control" />
+            </div>
 
             <div class="form-group">
                 <label for="">Start DateTime</label>
-                <input v-model.lazy="election.start_time" type="datetime-local" name="startTime" id="startTime" />
+                <input v-model.lazy="election.start_period" type="datetime-local" name="startTime" id="startTime" />
             </div>
             <div class="form-group">
                 <label for="">End DateTime</label>
-                <input v-model.lazy="election.end_time" type="datetime-local" name="endTime" id="endTime" />
+                <input v-model.lazy="election.end_period" type="datetime-local" name="endTime" id="endTime" />
             </div>
         </form>
     </template>
@@ -56,9 +60,8 @@ export default {
             if (!this.editableElection) {
                 createElection(this.election)
                     .then(response => {
-                        if (response?.data) {
-                            alert(response.message);
-                            this.onElectionCreated(response.data);
+                        if (response?.data.data) {
+                            // this.onElectionCreated(response.data.data);
                         }
                     })
             } else {
