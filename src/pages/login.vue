@@ -8,8 +8,8 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input :disabled="isLoading" id="email" type="email" class="form-control" :class="errorTarget == 'username' ? 'is-invalid' : null" name="email" required v-model="username" aria-describedby="emailHelp" />
-            <span style="font-size: 10px; color: red" v-show="errorTarget == 'username'">{{ errorMessage }}</span>
+            <input :disabled="isLoading" id="email" type="email" class="form-control" :class="errorTarget == 'email' ? 'is-invalid' : null" name="email" required v-model="email" aria-describedby="emailHelp" />
+            <span style="font-size: 10px; color: red" v-show="errorTarget == 'email'">{{ errorMessage }}</span>
         </div>
         <div class="form-group mb-4">
             <label for="password">Password</label>
@@ -37,7 +37,7 @@ export default {
 
     data() {
         return {
-            username: null,
+            email: null,
             password: null,
             errorMessage: null,
             errorTarget: null,
@@ -50,12 +50,9 @@ export default {
             this.errorMessage = null;
             this.errorTarget = null;
 
-            const username = this.username,
-                password = this.password;
-
-            if (!validEmail(username)) {
+            if (!validEmail(this.email)) {
                 this.errorMessage = "Provide valid email";
-                this.errorTarget = "username";
+                this.errorTarget = "email";
             } else if (!password || password.length < 6) {
                 this.errorMessage = "Password should be at least 6 characters";
                 this.errorTarget = "password";
@@ -64,20 +61,27 @@ export default {
             // if there was no error, attempt login
             if (!this.errorMessage) {
                 this.isLoading = true;
+                const credentials = {
+                    email: this.email,
+                    password: this.password
 
-                adminLogin({
-                        email: username,
-                        password
+                };
+                adminLogin(credentials)
+                    .then((response) => {
+                        const data = response.data.data;
+                        const accessToken = {
+                            'token': data.access_token,
+                            'expiration': data.token_expiration
+                        };
+
+                        localStorage.setItem('access_token', JSON.stringify(accessToken));
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                        // this.$router.replace('/dashboard');
+                        this.$router.push('/dashboard');
+
                     })
-                    .then(response => {
-                        if (response?.data) {
-                            localStorage.setItem('token', response.data.token);
-                            localStorage.setItem('user', JSON.stringify(response.data.user));
-                            this.$router.replace('/dashboard');
-                        }
-                    }, error => {
-                        this.errorMessage = error;
-                        this.isLoading = false;
+                    .catch((error) => {
+                        console.log(error)
                     })
             }
         },

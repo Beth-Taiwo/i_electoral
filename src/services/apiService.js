@@ -6,14 +6,7 @@ const axiosClient =  axios.create({
     timeout: 30000
 });
 axiosClient.interceptors.response.use((response)=>{
-      // return{
-        
-          // data:response.data,
-          // status: response.status,
-          // text:response.statusText,
-          // id:response.id
-      // }
-      console.log(response)
+      return response;
   },(error)=>{
     // console.log(error.response.status);
     let status = error.response.status;

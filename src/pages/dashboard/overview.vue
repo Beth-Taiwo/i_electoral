@@ -2,6 +2,9 @@
 <div>
     <div class="title">
         <h3>Dashboard</h3>
+        <!-- <p>
+            <router-link to='/dashboard'>dashboard</router-link>
+        </p> -->
     </div>
     <div class="container">
 
@@ -13,8 +16,8 @@
                             <i class="material-icons">text_snippet</i>
                             <h4>Elections</h4>
                         </div>
-
-                        <a href="#" class="btn btn-block disabled">View / manage</a>
+                        <router-link to="/list-election"><button class="btn btn-block">View</button></router-link>
+                        <!--<a href="#" class="btn btn-block disabled">View / manage</a> -->
                     </div>
                 </div>
             </div>
