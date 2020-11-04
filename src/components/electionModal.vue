@@ -61,20 +61,21 @@ export default {
                 createElection(this.election)
                     .then(response => {
                         if (response?.data.data) {
-                            // this.onElectionCreated(response.data.data);
+                            this.onElectionCreated(response.data.data);
                         }
                     })
             } else {
                 updateElection(this.election.id, this.election)
                     .then(response => {
-                        if (response?.data) {
-                            alert(response.message);
-                            this.onElectionUpdated(response.data);
+                        if (response?.data.data) {
+                            // alert(response);
+                            console.log(response.data.data);
+                            this.onElectionUpdated(response.data.data);
                         }
                     })
             }
-        }
+        },
     },
-    props: ['closeModal', 'onElectionCreated', 'onElectionUpdated', 'editableElection', 'onElectionDel']
+    props: ['closeModal', 'onElectionCreated', 'onElectionUpdated', 'editableElection']
 }
 </script>

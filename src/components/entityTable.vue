@@ -11,14 +11,13 @@
             <tr v-for="election of elections" :key="election.id">
                 <td>{{ election.name }}</td>
                 <td>
-
                     <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline"> click for details</router-link>
-
                 </td>
                 <td style="text-align: center">
-                    <button type="button" style="color:#fff;" class="btn green-btn btn-xs">
-                        Start
+                    <button v-if="election.status != 'ended'" type="button" style="color:#fff;" class="btn green-btn btn-xs" @click="startStopElection(election.id, election.status)">
+                        {{ election.status == 'ongoing' ? 'Stop': 'Start' }}
                     </button>
+                    <p v-else>{{election.status}}</p>
                 </td>
                 <td>
                     <button type="button" style="color:#fff;" name="edit" class="btn btn-primary btn-xs edit" @click="() => onManageElection(election)">
@@ -39,6 +38,9 @@
 </template>
 
 <script>
+import {
+    updateElection
+} from '../services/apiService';
 export default {
     props: ["elections", "update", "onManageElection", "ondelete"],
     components: {
@@ -49,6 +51,7 @@ export default {
             editShowModal: false,
             editElection: {},
             electiondata: [],
+            electionStatus: {}
         };
     },
     methods: {
@@ -69,6 +72,25 @@ export default {
 
             this.editElection = {};
         },
+        startStopElection(id, status) {
+
+            updateElection(id, {
+                    status: status === 'ongoing' ? 'ended' : 'ongoing'
+                })
+                .then((res) => {
+                    return res
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        },
+        statusBtnText(item) {
+            if (item.status == 'ongoing') {
+                return 'End';
+            }
+            return 'Start';
+        }
     },
 };
 </script>

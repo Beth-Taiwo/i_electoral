@@ -4,7 +4,8 @@
         <h3>All Elections</h3>
         <button><i class="bx bx-plus-medical" @click="showAddModal"></i></button>
     </div>
-    <electionModal :editableElection="editableElection" :onElectionCreated="onElectionCreated" :onElectionUpdated="onElectionUpdated" :onElectionDel="onElectionDel" :closeModal="closeModal" v-if="showModal" />
+
+    <electionModal :editableElection="editableElection" :onElectionCreated="onElectionCreated" :onElectionUpdated="onElectionUpdated" :closeModal="closeModal" v-if="showModal" />
 
     <entityTable v-if="electiondata.length > 0" :elections="electiondata" :onManageElection="manageElection" :ondelete="deleteElection" />
     <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
@@ -15,7 +16,8 @@
 
 <script>
 import {
-    getElections
+    getElections,
+    deleteElectionByID
 } from "../../services/apiService";
 
 import entityTable from "../../components/entityTable";
@@ -69,15 +71,15 @@ export default {
             this.showAddModal();
         },
 
-        onElectionDel(election) {
-            this.electiondata = this.electiondata.map(del_election => {
-                if (del_election.id === election.id) {
-                    return election;
-                }
-                return del_election;
-            });
-        },
         deleteElection(id) {
+            //delete request
+            deleteElectionByID(id)
+                .then((res) => {
+                    console.log(res)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             this.electiondata = this.electiondata.filter(election => election.id != id)
         }
 

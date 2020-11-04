@@ -29,6 +29,7 @@ axiosClient.interceptors.response.use((response)=>{
     switch(status){
       case 401:
         console.log("unauthenication");
+        localStorage.clear();
         break;
       case 422:
         console.log("Validation error");
@@ -66,7 +67,7 @@ export const updateElection = function(id, updatedElection) {
   return axiosClient.patch('elections/'+id,updatedElection);
 };
 
-export const deleteElection =  function(id){
+export const deleteElectionByID=  function(id){
  return axiosClient.delete('elections/'+id);
 }
 
