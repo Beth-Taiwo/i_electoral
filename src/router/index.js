@@ -4,6 +4,11 @@ import login from '../pages/login.vue';
 
 const routes = [
   {
+    path: '',
+    redirect:'/dashboard'
+    
+  },
+  {
     path: '/login',
     name: 'login',
     component: login,
