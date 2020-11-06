@@ -2,9 +2,6 @@
 <div>
     <div class="title">
         <h3>Dashboard</h3>
-        <!-- <p>
-            <router-link to='/dashboard'>dashboard</router-link>
-        </p> -->
     </div>
     <div class="container">
 

@@ -1,12 +1,12 @@
 <template>
-<modal :close="closeModal" v-show="showModal" @form-save="showVoterData">
+<modal :close="closeModal" @form-save="addVoter">
     <template v-slot:title>
         <h5 class="modal-title" id="exampleModalLabel">Add Voter</h5>
     </template>
     <template v-slot:content>
         <form>
             <div class="form-group mb-0">
-                <label for="election-name" class="col-form-label">Voter name</label>
+                <label for="voter-name" class="col-form-label">Voter name</label>
                 <input v-model="voter.fullName" type="text" placeholder="Full Name" class="form-control" id="voter-name">
             </div>
             <div class="form-group">

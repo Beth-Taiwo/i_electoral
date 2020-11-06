@@ -62,6 +62,7 @@ export default {
                     .then(response => {
                         if (response?.data.data) {
                             this.onElectionCreated(response.data.data);
+                            alert('Election created successfully')
                         }
                     })
             } else {
@@ -69,8 +70,8 @@ export default {
                     .then(response => {
                         if (response?.data.data) {
                             // alert(response);
-                            console.log(response.data.data);
                             this.onElectionUpdated(response.data.data);
+                            alert(`${response.data.data.name} has been updated successfully`);
                         }
                     })
             }

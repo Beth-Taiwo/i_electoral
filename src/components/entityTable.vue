@@ -51,7 +51,8 @@ export default {
             editShowModal: false,
             editElection: {},
             electiondata: [],
-            electionStatus: {}
+            electionStatus: {},
+            notification: ""
         };
     },
     methods: {
@@ -78,8 +79,8 @@ export default {
                     status: status === 'ongoing' ? 'ended' : 'ongoing'
                 })
                 .then((res) => {
-                    return res
-
+                    this.notification = res.data.data.status;
+                    alert(`This election is ${this.notification}`)
                 })
                 .catch((err) => {
                     console.log(err)

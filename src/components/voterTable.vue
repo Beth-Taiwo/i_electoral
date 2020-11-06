@@ -30,14 +30,33 @@
 export default {
     data() {
         return {
-
+            editShowModal: false,
+            editVoter: {},
+            voterdata: [],
+            voterStatus: {},
+            notification: ""
         }
     },
-    props: ["voters"],
+    props: ["voters", "update", "onManageVoter", "ondelete"],
     methods: {
-        fetchData() {
-            console.log("Working");
-        }
-    }
+        closeModal() {
+            this.editShowModal = false;
+        },
+
+        updatedfield() {
+            this.voterdata = this.voterdata.map((voter) => {
+                if (
+                    voter.id == this.editVoter.id ||
+                    voter.voterName == this.editVoter.voterName
+                ) {
+                    return this.editVoter;
+                }
+                return voter;
+            });
+
+            this.editVoter = {};
+        },
+
+    },
 }
 </script>

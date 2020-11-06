@@ -13,9 +13,7 @@
     <div>
         <router-link to="/dashboard/elections"><i class="material-icons">text_snippet</i>Election</router-link>
     </div>
-    <div>
-        <router-link to="/dashboard/positions"><i class="fa fa-fw fa-clipboard"></i> Positions</router-link>
-    </div>
+
     <div>
         <router-link to="/dashboard/candidates"><i class="fa fa-fw fa-group"></i> Candidates</router-link>
     </div>

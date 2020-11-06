@@ -25,7 +25,6 @@ const routes = [
         let expirationTime = moment(expiration);
         let currentTime = moment();
         let diff = expirationTime.diff(currentTime, 'hours');
-        console.log(diff);
         if(diff < 0){
           localStorage.removeItem('access_token');
           next({
@@ -70,11 +69,7 @@ const routes = [
           },
         ]
       },
-      {
-        path: 'positions',
-        name: 'positions',
-        component: () => import('../pages/dashboard/positions')
-      },
+      
       {
         path: 'candidates',
         name: 'candidates',
@@ -83,7 +78,19 @@ const routes = [
       {
         path: 'voters',
         name: 'voters',
-        component: () => import('../pages/dashboard/voters')
+        component: () => import('../pages/dashboard/voters'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () => import('../pages/detailedPage/voterDisplay')
+          },
+          {
+            path: ':id',
+            name: 'view-voter',
+            component: () => import('../pages/detailedPage/viewVoter')
+          },
+        ]
       },
       {
         path: 'results',

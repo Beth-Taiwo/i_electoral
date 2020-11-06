@@ -28,17 +28,17 @@ axiosClient.interceptors.response.use((response)=>{
     let status = error.response.status;
     switch(status){
       case 401:
-        console.log("unauthenication");
+        alert("unauthenication");
         localStorage.clear();
         break;
       case 422:
-        console.log("Validation error");
+        alert("Validation error");
         break;
       case 403:
-        console.log("Unauthorized access");
+        alert("Unauthorized access");
         break;
       case 429:
-        console.log("Too many request");
+        alert("Too many request");
         break;
   
     }
@@ -77,7 +77,7 @@ export const getPositions = function(electionId){
   return axiosClient.get('/elections/'+ electionId +'/positions');
 }
 
-export const createPosition =  function (electionId,position){
+export const createPosition =  function (electionId, position){
 return axiosClient.post('/elections/'+ electionId +'/positions', position)
  
 }
@@ -129,7 +129,7 @@ export const viewVoter = function(voterId){
 export const updateVoter =  function(voterId, updateVoter){
   return axiosClient.patch('/voters/'+ voterId,updateVoter)
 }
-export const deleteVoter = function(voterId){
+export const deleteVoterByID = function(voterId){
   return axiosClient.delete('/voters/' + voterId);
 }
 export const listAllVoters = function(){

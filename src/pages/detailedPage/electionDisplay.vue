@@ -11,6 +11,7 @@
     <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
         No election at this moment
     </p>
+
 </div>
 </template>
 
@@ -75,7 +76,7 @@ export default {
             //delete request
             deleteElectionByID(id)
                 .then((res) => {
-                    console.log(res)
+                    return res
                 })
                 .catch((err) => {
                     console.log(err)
