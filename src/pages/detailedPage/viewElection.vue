@@ -34,22 +34,23 @@
                     <ul class="card-text">
                         <li v-for="position in election.positions" :key="position.id" class="mt-2">
                             <span>{{ position.title }}</span>
-                            <button class="btn btn-danger">Del</button>
+                            <button class="btn btn-danger" @click="ondelete(position.id)">
+                                Del</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <!--<positionModal :editablePosition="editablePosition" :onPositionCreated="onPositionCreated" :onPositionUpdated="onPositionUpdated" :closeModal="closeModal" v-if="showModal" :electionId="election.id" />-->
-    <positionModal :closeModal="closeModal" v-if="showModal" :electionId="election.id" />
+    <positionModal :closeModal="closeModal" :onPositionCreated="onPositionCreated" v-if="showModal" :electionId="election.id" />
 </div>
 </template>
 
 <script>
 import moment from "moment";
 import {
-    viewElection
+    viewElection,
+    deletePosition
 } from "../../services/apiService";
 import positionModal from "../../components/positionModal";
 export default {
@@ -62,6 +63,7 @@ export default {
             election: null,
             createdTime: null,
             showModal: false,
+            positiondata: []
         };
     },
     computed: {
@@ -96,8 +98,22 @@ export default {
         },
         closeModal() {
             this.showModal = false;
-            // this.editablePosition = null;
         },
+        onPositionCreated(position) {
+            this.positiondata = [...this.positiondata, position];
+            this.closeModal();
+        },
+        ondelete(id) {
+            deletePosition(id)
+                .then((res) => {
+                    return res;
+                })
+                .catch((err) => {
+                    return err;
+                });
+            console.log("Position deleted successfully, refresh the page to see changes");
+            this.positiondata = this.positiondata.filter(position => position.id != id)
+        }
     },
 };
 </script>

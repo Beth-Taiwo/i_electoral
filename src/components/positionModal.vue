@@ -14,18 +14,16 @@
             </div>
         </form>
     </template>
-
 </modal>
 </template>
 
 <script>
 import Modal from '../components/modal';
 import {
-    createPosition,
-    // updatePosition
+    createPosition
 } from "../services/apiService";
 export default {
-    props: ['closeModal', 'onPositionCreated', 'onPositionUpdated', 'editablePosition', 'electionId'],
+    props: ['closeModal', 'electionId', 'onPositionCreated'],
     components: {
         Modal
     },
@@ -34,34 +32,15 @@ export default {
             position: {},
         }
     },
-    // mounted() {
-
-    //     if (this.editablePosition) {
-    //         this.position = {
-    //             ...this.editablePosition
-    //         }
-    //     }
-    // },
     methods: {
         addPosition() {
-            // if (!this.editablePosition) {
-            //     console.log('Election id: ' + this.electionId)
             createPosition(this.electionId, this.position)
                 .then(response => {
                     if (response?.data) {
                         this.onPositionCreated(response.data.data);
-                        alert('Position created successfully')
+                        alert(`${response.data.data.message}!!! Kindly refresh the page to see changes`)
                     }
                 })
-            // } else {
-            //     updatePosition(this.position.id, this.position)
-            //         .then(response => {
-            //             if (response?.data) {
-            //                 alert(response.message);
-            //                 this.onPositionUpdated(response.data);
-            //             }
-            //         })
-            // }
         }
     },
 }

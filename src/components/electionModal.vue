@@ -71,7 +71,7 @@ export default {
                         if (response?.data.data) {
                             // alert(response);
                             this.onElectionUpdated(response.data.data);
-                            alert(`${response.data.data.name} has been updated successfully`);
+                            alert(`${response.data.data.message} has been updated successfully`);
                         }
                     })
             }

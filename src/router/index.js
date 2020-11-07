@@ -69,7 +69,11 @@ const routes = [
           },
         ]
       },
-      
+      {
+        path: 'positions',
+        name: 'positions',
+        component: () => import('../pages/dashboard/positions'),
+      },
       {
         path: 'candidates',
         name: 'candidates',
