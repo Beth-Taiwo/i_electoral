@@ -38,7 +38,8 @@ export default {
                 .then(response => {
                     if (response?.data) {
                         this.onPositionCreated(response.data.data);
-                        alert(`${response.data.data.message}!!! Kindly refresh the page to see changes`)
+                        alert(`${response.data.data.message}!!!`);
+                        this.$router.go();
                     }
                 })
         }

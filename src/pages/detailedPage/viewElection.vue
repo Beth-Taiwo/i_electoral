@@ -3,10 +3,14 @@
     <div class="title heading">
         <h3>Election</h3>
     </div>
-    <div class="container">
-        <p v-show="loading" style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
+    <notify :nodata="false" :isLoading="isLoading" :isLoadingError="isLoadingError">
+        <template v-slot:nodata>
             No election at this moment
-        </p>
+        </template>
+
+    </notify>
+
+    <div class="container">
         <div v-if="election">
             <router-link class="router" to="/dashboard/elections"><i class="bx bx-chevron-left"></i><span>Back</span>
             </router-link>
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+import notify from '../../components/notification';
 import moment from "moment";
 import {
     viewElection,
@@ -56,14 +61,16 @@ import positionModal from "../../components/positionModal";
 export default {
     components: {
         positionModal,
+        notify
     },
     data() {
         return {
-            loading: true,
             election: null,
             createdTime: null,
             showModal: false,
-            positiondata: []
+            positiondata: [],
+            isLoading: false,
+            isLoadingError: false,
         };
     },
     computed: {
@@ -79,6 +86,7 @@ export default {
     },
     mounted() {
         const electionId = this.$route.params.id;
+        this.isLoading = true;
         viewElection(electionId)
             .then((res) => {
                 this.loading = false;
@@ -88,8 +96,11 @@ export default {
                     "dddd, MMMM Do YYYY, h:mm:ss a"
                 );
             })
-            .catch((error) => {
-                console.log(error);
+            .catch(() => {
+                this.isLoadingError = true;
+            })
+            .then(() => {
+                this.isLoading = false;
             });
     },
     methods: {
@@ -104,15 +115,18 @@ export default {
             this.closeModal();
         },
         ondelete(id) {
-            deletePosition(id)
-                .then((res) => {
-                    return res;
-                })
-                .catch((err) => {
-                    return err;
-                });
-            console.log("Position deleted successfully, refresh the page to see changes");
-            this.positiondata = this.positiondata.filter(position => position.id != id)
+            if (confirm("Are you sure you want to delete this position?")) {
+                deletePosition(id)
+                    .then((res) => {
+                        return res;
+                    })
+                    .catch((err) => {
+                        return err;
+                    });
+                this.positiondata = this.positiondata.filter(position => position.id != id)
+            }
+            alert("Please refresh page to see changes")
+            // this.$router.go();
         }
     },
 };

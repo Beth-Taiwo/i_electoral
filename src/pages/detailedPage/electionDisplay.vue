@@ -8,10 +8,14 @@
     <electionModal :editableElection="editableElection" :onElectionCreated="onElectionCreated" :onElectionUpdated="onElectionUpdated" :closeModal="closeModal" v-if="showModal" />
 
     <entityTable v-if="electiondata.length > 0" :elections="electiondata" :onManageElection="manageElection" :ondelete="deleteElection" />
-    <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
-        No election at this moment
-    </p>
 
+    <!--Using components for displaying notification -->
+    <notify :nodata="nodata" :isLoading="isLoading" :isLoadingError="isLoadingError">
+        <template v-slot:nodata>
+            No election at this moment
+        </template>
+
+    </notify>
 </div>
 </template>
 
@@ -23,10 +27,12 @@ import {
 
 import entityTable from "../../components/entityTable";
 import electionModal from "../../components/electionModal";
+import notify from '../../components/notification';
 export default {
     components: {
         entityTable,
         electionModal,
+        notify
     },
     data() {
         return {
@@ -34,15 +40,29 @@ export default {
             name: "",
             electiondata: [],
             editableElection: null,
+            isLoading: false,
+            isLoadingError: false,
+            nodata: false,
         };
     },
 
     mounted() {
-        getElections().then((response) => {
-            if (response?.data.data) {
-                this.electiondata = response.data.data;
-            }
-        });
+        this.isLoading = true;
+        this.nodata = this.electiondata.length <= 0 && !this.isLoading;
+        getElections()
+            .then((response) => {
+                if (response?.data.data) {
+                    this.electiondata = response.data.data;
+                }
+            })
+            .catch(() => {
+                this.isLoadingError = true;
+            })
+            .then(() => {
+                this.isLoading = false;
+                this.nodata = this.electiondata.length <= 0 && !this.isLoading && !this.isLoadingError;
+
+            });
     },
 
     methods: {
@@ -56,6 +76,7 @@ export default {
         onElectionCreated(election) {
             this.electiondata = [...this.electiondata, election];
             this.closeModal();
+            this.$router.go();
         },
 
         onElectionUpdated(election) {
@@ -73,15 +94,18 @@ export default {
         },
 
         deleteElection(id) {
-            //delete request
-            deleteElectionByID(id)
-                .then((res) => {
-                    return res
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            this.electiondata = this.electiondata.filter(election => election.id != id)
+            if (confirm("Are you sure you want to delete this election?")) {
+                //delete request
+                deleteElectionByID(id)
+                    .then((res) => {
+                        return res
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                this.electiondata = this.electiondata.filter(election => election.id != id)
+
+            }
         }
 
     },

@@ -1,5 +1,23 @@
 <template>
-<nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="#" class="navbar-brand text-white">iElectoral</a>
+
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown text-white">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class='bx bxs-user'></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <button class="btn btn-link text-dark dropdown-item">Profile</button>
+                <div class="dropdown-divider"></div>
+                <button @click="logOut" class="btn btn-link text-dark dropdown-item">Logout</button>
+            </div>
+        </li>
+    </ul>
+</nav>
+<!--
+<nav class="navbar-expand-lg navbar-light">
     <h3>iElectoral</h3>
     <div class="dropdown">
         <button class="dropbtn">
@@ -10,7 +28,7 @@
             <a @click.prevent="logOut" href="#">Log out</a>
         </div>
     </div>
-</nav>
+</nav> -->
 </template>
 
 <script>
@@ -22,9 +40,8 @@ export default {
     },
     methods: {
         logOut() {
-            this.$router.push("/login");
-            console.log("Logout");
             localStorage.clear();
+            this.$router.push("/login");
         }
     }
 
@@ -34,8 +51,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+.dropdown-menu {
+    position: absolute;
+    left: -120px;
+
+}
+
 nav {
-    /* position: relative;*/
+    background: #EF7F19 !important;
+    position: relative;
+    z-index: 100;
+}
+
+/*
+nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -88,13 +117,13 @@ nav h3 {
 .dropdown-content a:hover {
     background-color: #000;
 }
-
+*/
 /*.dropdown:hover .dropdown-content,
 .dropdown>button:focus+.dropdown-content {
     display: block;
 }*/
-
+/*
 .dropdown>button:focus+.dropdown-content {
     display: block;
-}
+}*/
 </style>
