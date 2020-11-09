@@ -77,7 +77,19 @@ const routes = [
       {
         path: 'candidates',
         name: 'candidates',
-        component: () => import('../pages/dashboard/candidates')
+        component: () => import('../pages/dashboard/candidates'),
+        children: [
+          {
+            path: '',
+            name: '',
+            component: () => import('../pages/detailedPage/candidateDisplay')
+          },
+          {
+            path: ':id',
+            name: 'view-candidate',
+            component: () => import('../pages/detailedPage/viewCandidate')
+          },
+        ]
       },
       {
         path: 'voters',

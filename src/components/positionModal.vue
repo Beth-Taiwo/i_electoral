@@ -7,7 +7,7 @@
         <form>
             <div class="form-group">
                 <label for="election-name" class="col-form-label">Position Title</label>
-                <input v-model="position.title" type="text" class="form-control" id="election-name">
+                <input v-model="position.title" type="text" class="form-control" id="election-name" />
 
                 <label for="election-name" class="col-form-label">Description</label>
                 <textarea v-model="position.description" class="form-control" id="election-description"></textarea>
@@ -18,31 +18,30 @@
 </template>
 
 <script>
-import Modal from '../components/modal';
+import Modal from "../components/modal";
 import {
     createPosition
 } from "../services/apiService";
 export default {
-    props: ['closeModal', 'electionId', 'onPositionCreated'],
+    props: ["closeModal", "electionId", "onPositionCreated"],
     components: {
-        Modal
+        Modal,
     },
     data() {
         return {
             position: {},
-        }
+        };
     },
     methods: {
         addPosition() {
-            createPosition(this.electionId, this.position)
-                .then(response => {
-                    if (response?.data) {
-                        this.onPositionCreated(response.data.data);
-                        alert(`${response.data.data.message}!!!`);
-                        this.$router.go();
-                    }
-                })
-        }
+            createPosition(this.electionId, this.position).then((response) => {
+                if (response?.data) {
+                    this.onPositionCreated(response.data.data);
+                    alert(`${response.data.data.message}!!!`);
+                    this.$router.go();
+                }
+            });
+        },
     },
-}
+};
 </script>

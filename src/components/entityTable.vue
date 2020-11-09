@@ -11,7 +11,7 @@
             <tr v-for="election of elections" :key="election.id">
                 <td>{{ election.name }}</td>
                 <td>
-                    <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline"> click for details</router-link>
+                    <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline">View details</router-link>
                 </td>
                 <td style="text-align: center">
                     <button v-if="election.status != 'ended'" type="button" style="color:#fff;" class="btn green-btn btn-xs" @click="startStopElection(election.id, election.status)">
@@ -21,7 +21,7 @@
                 </td>
                 <td>
                     <button type="button" style="color:#fff;" name="edit" class="btn btn-primary btn-xs edit" @click="() => onManageElection(election)">
-                        Manage
+                        Edit
                     </button>
 
                 </td>

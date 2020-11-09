@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const axiosClient =  axios.create({
     baseURL : 'https://test.api.walulel.com/api',
+    // baseURL : 'https://40c3c5e2d25e.ngrok.io/api',
     // timeout: 60000
 });
 axiosClient.interceptors.request.use((request) => {
@@ -73,7 +74,11 @@ export const deleteElectionByID=  function(id){
 
 
 // create Positions
-export const getPositions = function(electionId){
+export const getPositions = function(){
+  return axiosClient.get('/positions');
+}
+
+export const getElectionPositions = function(electionId){
   return axiosClient.get('/elections/'+ electionId +'/positions');
 }
 
@@ -96,8 +101,8 @@ export const deletePosition = function(positionId){
 }
 
 //create candidate
-export const createCandidate= function(positionId,candidate){
-  return axiosClient.post('/positions/'+ positionId + '/candidates', candidate);
+export const createCandidate= function(positionId,candidate, config){
+  return axiosClient.post('/positions/'+ positionId + '/candidates', candidate, config );
 }
 
 export const updateCandidate = function(candidateId, updateCandidate){
@@ -108,7 +113,7 @@ export const viewCandidate = function(candidateId){
   return axiosClient.get('/candidates/'+ candidateId);
 }
 
-export const deleteCandidate = function(candidateId){
+export const deleteCandidateByID = function(candidateId){
   return axiosClient.delete('/candidates/'+ candidateId);
 }
 

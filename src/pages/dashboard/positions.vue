@@ -8,9 +8,6 @@
 </template>
 
 <script>
-import {
-    getPositions
-} from "../../services/apiService";
 export default {
     components: {
 
@@ -23,11 +20,7 @@ export default {
         }
     },
     mounted() {
-        getPositions().then((res) => {
-            if (res?.data.data) {
-                this.positiondata = res.data.data;
-            }
-        })
+
     },
     methods: {
         showAddModal() {
