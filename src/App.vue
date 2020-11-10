@@ -30,4 +30,8 @@ h3 {
 .container {
     padding: 32px 56px;
 }
+
+.card {
+    margin-top: 16px !important;
+}
 </style>

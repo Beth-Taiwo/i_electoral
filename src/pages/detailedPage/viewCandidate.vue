@@ -2,23 +2,39 @@
 <div>
     <div class="title heading">
         <h3>Candidate</h3>
-        <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
-
-    <candidateModal :editableCandidate="editableCandidate" :onCandidateCreated="onCandidateCreated" :onCandidateUpdated="onCandidateUpdated" :positionId="position.id" :closeModal="closeModal" v-if="showModal" />
-    <candidateTable v-if="candidatedata.length > 0" :candidates="candidatedata" :onManageCandidate="manageCandidate" />
-
-    <!--
-    <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
-        No candidate at this moment
-    </p>-->
-
+    <!--notification component-->
     <notify :nodata="nodata" :isLoading="isLoading" :isLoadingError="isLoadingError">
         <template v-slot:nodata>
             No candidate at this moment
         </template>
-
     </notify>
+    <div class="container">
+        <div v-if="candidate">
+            <router-link class="router" to="/dashboard/candidates"><i class="bx bx-chevron-left"></i><span>Back</span>
+            </router-link>
+            <div class="card">
+                <div class="card-header">
+                    <div class="rounded-img">
+                        <img :src="candidate.avatar" alt="an image" class=" img-thumbnail" />
+                    </div>
+                    <div class="positionCard card-text">
+                        <h2>{{ candidate.full_name }}</h2>
+                        <div class="positionText">
+                            <span>{{ candidate.position.title }}</span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">Bio</h4>
+                    <p class="card-text">{{ candidate.bio }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </template>
 
@@ -27,27 +43,26 @@ import notify from '../../components/notification';
 import {
     viewCandidate
 } from "../../services/apiService";
-import candidateTable from '../../components/candidateTable';
-import candidateModal from '../../components/candidateModal';
 
 export default {
     components: {
-        candidateModal,
-        candidateTable,
         notify
     },
     data() {
         return {
             showModal: false,
-            fullname: "",
-            editableCandidate: null,
-            candidatedata: []
+            candidate: null,
+            isLoading: false,
+            isLoadingError: false,
+            nodata: false
         }
     },
     mounted() {
-        viewCandidate().then((res) => {
+        const candidateId = this.$route.params.id;
+        viewCandidate(candidateId).then((res) => {
             if (res?.data.data) {
-                this.candidatedata = res.data.data;
+                this.candidate = res.data.data;
+                console.log(this.candidate)
             }
         })
     },
@@ -76,21 +91,38 @@ export default {
             this.editableCandidate = candidate;
             this.showAddModal();
         },
-    }
+    },
+
 }
 </script>
 
 <style scoped>
-.heading>button {
-    margin-right: 25px;
-    outline: none;
-    border: none;
-
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-button {
-    height: 25px;
-    background: #27AE60;
-    color: #ffffff;
+.rounded-img>img {
+    border-radius: 50%;
+    margin-right: 16px;
+    width: 200px;
+}
+
+.positionCard {
+    margin-top: 7%;
+}
+
+.positionText {
+    background-color: #27ae60;
+    border-radius: 5px;
+    color: cornsilk;
+    margin-left: 0;
+    margin-top: 12px;
+    margin-bottom: 0;
+    text-align: center;
+    display: inline-block;
+    padding: 8px;
+    font-size: 16px;
 }
 </style>

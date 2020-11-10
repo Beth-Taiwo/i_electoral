@@ -93,7 +93,7 @@ export default {
                 createCandidate(this.selectedPosition, data, config)
                     .then(response => {
                         if (response?.data) {
-                            alert(response.data.message);
+                            console.log(response.data.data);
                             this.onCandidateCreated(response.data.data);
                         }
                     })
@@ -101,8 +101,7 @@ export default {
                 updateCandidate(this.candidate.id, this.candidate)
                     .then(response => {
                         if (response?.data) {
-                            alert(response.data.message);
-                            this.onCandidateUpdated(response.data);
+                            this.onCandidateUpdated(response.data.data);
                         }
                     })
             }

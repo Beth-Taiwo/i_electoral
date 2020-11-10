@@ -144,7 +144,7 @@ export default {
     width: 52px;
     align-items: center;
     text-decoration: none;
-    margin-bottom: 16px;
+
 }
 
 .card-body>.card-title-div {

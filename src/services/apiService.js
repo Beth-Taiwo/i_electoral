@@ -2,8 +2,8 @@ import axios from 'axios';
 
 
 const axiosClient =  axios.create({
-    baseURL : 'https://test.api.walulel.com/api',
-    // baseURL : 'https://40c3c5e2d25e.ngrok.io/api',
+    // baseURL : 'https://test.api.walulel.com/api',
+    baseURL : 'https://8e1f453572e2.ngrok.io/api',
     // timeout: 60000
 });
 axiosClient.interceptors.request.use((request) => {

@@ -35,7 +35,7 @@
 
 <script>
 export default {
-    props: ["candidates", "update", "onManageCandidate"],
+    props: ["candidates", "update", "onManageCandidate", "ondelete"],
     data() {
         return {
             editShowModal: false,
