@@ -62,7 +62,6 @@ export default {
             .then(() => {
                 this.isLoading = false;
                 this.nodata = this.candidatedata.length <= 0 && !this.isLoading && !this.isLoadingError;
-
             });
     },
 

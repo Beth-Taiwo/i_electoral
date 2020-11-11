@@ -20,7 +20,16 @@
                         <h2>{{ election.name }}</h2>
                         <p>Created on: {{ createdTime }}</p>
                     </div>
-                    <button :class="statusColor">{{ election.status }}</button>
+                    <!--  <div v-for="vote of votes" :key="vote.id"> -->
+                    <div>
+                        <button :class="statusColor" v-if="election.status != 'ended'" disabled>{{ election.status }}</button>
+                        <!--
+                        <router-link v-else :class="statusColor" to="/dashboard/elections"><i class="bx bx-chevron-left"></i><span>view results</span></router-link>
+                        -->
+                        <button v-else :class="statusColor" @click="viewResultByElection">view results</button>
+
+                    </div>
+
                 </div>
                 <div class="card-body">
                     <h4 class="card-title">Description</h4>
@@ -55,7 +64,8 @@ import notify from '../../components/notification';
 import moment from "moment";
 import {
     viewElection,
-    deletePosition
+    deletePosition,
+    listResults
 } from "../../services/apiService";
 import positionModal from "../../components/positionModal";
 export default {
@@ -71,6 +81,7 @@ export default {
             positiondata: [],
             isLoading: false,
             isLoadingError: false,
+            votes: []
         };
     },
     computed: {
@@ -79,7 +90,7 @@ export default {
                 return "btn btn-success";
             }
             if (this.election.status == "ended") {
-                return "btn btn-danger";
+                return "btn btn-secondary";
             }
             return "btn btn-warning";
         },
@@ -127,6 +138,14 @@ export default {
             }
             alert("Please refresh page to see changes")
             // this.$router.go();
+        },
+        viewResultByElection() {
+            const electionId = this.$route.params.id;
+            listResults(electionId)
+                .then(res => {
+                    console.log(res.data.data);
+                    this.votes = res.data.data;
+                })
         }
     },
 };

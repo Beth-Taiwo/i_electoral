@@ -1,18 +1,17 @@
 <template>
 <div>
     <div class="title heading">
-        <h3>Candidate</h3>
+        <h3>Results</h3>
     </div>
     <!--notification component-->
     <notify :nodata="nodata" :isLoading="isLoading" :isLoadingError="isLoadingError">
         <template v-slot:nodata>
-            No candidate at this moment
+            No result at this moment
         </template>
     </notify>
     <div class="container">
-        <div v-if="candidate">
-            <router-link class="router" to="/dashboard/candidates"><i class="bx bx-chevron-left"></i><span>Back</span>
-            </router-link>
+        <div v-if="result">
+            <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline"><span>Back</span></router-link>
             <div class="card">
                 <div class="card-header">
                     <div class="rounded-img">
@@ -30,8 +29,8 @@
 
                 </div>
                 <div class="card-body">
-                    <h4 class="card-title">Bio</h4>
-                    <p class="card-text">{{ candidate.bio }}</p>
+                    <h4 class="card-title">No Of Vote</h4>
+                    <p class="card-text">{{ vote.vote_count }}</p>
                 </div>
             </div>
         </div>

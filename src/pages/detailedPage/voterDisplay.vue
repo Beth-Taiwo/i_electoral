@@ -5,14 +5,19 @@
         <button><i class='bx bx-plus-medical' @click="showAddModal"></i></button>
     </div>
     <voterModal :editableVoter="editableVoter" :onVoterCreated="onVoterCreated" :onVoterUpdated="onVoterUpdated" :closeModal="closeModal" v-if="showModal" />
-    <voterTable v-if="voterdata.length > 0" :voters="voterdata" :onManageVoter="manageVoter" :ondelete="deleteElection" />
-    <p v-else style="text-align: center; padding: 20px; color: rgb(73, 67, 67)">
-        No Voter at this moment
-    </p>
+    <voterTable v-if="voterdata.length > 0" :voters="voterdata" :onManageVoter="manageVoter" :ondelete="deleteVoter" />
+
+    <notify :nodata="nodata" :isLoading="isLoading" :isLoadingError="isLoadingError">
+        <template v-slot:nodata>
+            No Voter at this moment
+        </template>
+
+    </notify>
 </div>
 </template>
 
 <script>
+import notify from '../../components/notification';
 import {
     listAllVoters,
     deleteVoterByID
@@ -22,22 +27,33 @@ import voterTable from '../../components/voterTable';
 export default {
     components: {
         voterTable,
-        voterModal
+        voterModal,
+        notify
     },
     data() {
         return {
             showModal: false,
             name: "",
             editableVoter: null,
-            voterdata: []
+            voterdata: [],
+            isLoading: false,
+            isLoadingError: false,
+            nodata: false
         }
     },
     mounted() {
+        this.isLoading = true;
         listAllVoters()
             .then((response) => {
                 if (response?.data.data) {
                     this.voterdata = response.data.data;
                 }
+            }).catch(() => {
+                this.isLoadingError = true;
+            })
+            .then(() => {
+                this.isLoading = false;
+                this.nodata = this.voterdata.length <= 0 && !this.isLoading && !this.isLoadingError;
             });
     },
 
@@ -52,6 +68,7 @@ export default {
         onVoterCreated(voter) {
             this.voterdata = [...this.voterdata, voter];
             this.closeModal();
+            this.$router.go();
         },
 
         onVoterUpdated(voter) {
@@ -69,15 +86,18 @@ export default {
         },
 
         deleteVoter(id) {
-            //delete request
-            deleteVoterByID(id)
-                .then((res) => {
-                    return res
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-            this.voterdata = this.voterdata.filter(voter => voter.id != id)
+            if (confirm("Are you sure you want to do this?")) {
+                //delete request
+                deleteVoterByID(id)
+                    .then((res) => {
+                        return res
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+                this.voterdata = this.voterdata.filter(voter => voter.id != id)
+
+            }
         }
 
     },

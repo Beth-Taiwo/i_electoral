@@ -5,18 +5,22 @@
             <tr>
                 <th>Full Name</th>
                 <th>Email</th>
-                <th>Status</th>
+                <th colspan="2" style="text-align: center">Action</th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="voter of voters" :key="voter.id">
-                <td>{{ voter.fullName }}</td>
+                <td>{{ voter.full_name }}</td>
                 <td>{{ voter.email }}</td>
-                <td>{{ voter.status }}</td>
 
-                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="fetchData()">
-                        <router-link to="/dashboard/election/election-detail"></router-link>Edit / Manage
-                    </button></td>
+                <td><button type="button" name="edit" class="btn btn-primary btn-xs edit" @click="()=> onManageVoter(voter)">Edit
+                    </button>
+                </td>
+                <td>
+                    <button type="button" name="delete" class="btn btn-danger btn-xs delete" @click="() => ondelete(voter.id)">
+                        Delete
+                    </button>
+                </td>
 
             </tr>
 
@@ -33,8 +37,6 @@ export default {
             editShowModal: false,
             editVoter: {},
             voterdata: [],
-            voterStatus: {},
-            notification: ""
         }
     },
     props: ["voters", "update", "onManageVoter", "ondelete"],
@@ -42,21 +44,6 @@ export default {
         closeModal() {
             this.editShowModal = false;
         },
-
-        updatedfield() {
-            this.voterdata = this.voterdata.map((voter) => {
-                if (
-                    voter.id == this.editVoter.id ||
-                    voter.voterName == this.editVoter.voterName
-                ) {
-                    return this.editVoter;
-                }
-                return voter;
-            });
-
-            this.editVoter = {};
-        },
-
     },
 }
 </script>

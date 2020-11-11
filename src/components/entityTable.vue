@@ -18,6 +18,7 @@
                         {{ election.status == 'ongoing' ? 'Stop': 'Start' }}
                     </button>
                     <p v-else>{{election.status}}</p>
+
                 </td>
                 <td>
                     <button type="button" style="color:#fff;" name="edit" class="btn btn-primary btn-xs edit" @click="() => onManageElection(election)">
