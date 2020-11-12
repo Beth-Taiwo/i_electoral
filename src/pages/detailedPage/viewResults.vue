@@ -10,39 +10,47 @@
         </template>
     </notify>
     <div class="container">
-        <div v-if="result">
-            <router-link :to="`/dashboard/elections/${election.id}`" style="text-decoration: underline"><span>Back</span></router-link>
-            <div class="card">
+        <div class="card">
+            <div v-for="(result,index) of results" :key="index">
                 <div class="card-header">
-                    <div class="rounded-img">
+                    <strong><span> {{ result[0].position_name }} </span></strong>
+                </div>
+                <div class="card-body d-flex justify-content-center">
+                    <div class="candidate-details" v-for="candidate in result" :key="candidate.id">
+                        <div class="rounded-img">
+                            <img :src="candidate.avatar_url" alt="candidate image">
 
-                        <img :src="candidate.avatar" alt="an image" class=" img-thumbnail" />
-
-                    </div>
-                    <div class="positionCard card-text">
-                        <h2>{{ candidate.full_name }}</h2>
-                        <div class="positionText">
-                            <span>{{ candidate.position.title }}</span>
                         </div>
-
+                        <h4>{{ candidate.full_name}}</h4>
+                        <span>Votes: <b>{{ candidate.vote_count }}</b></span>
                     </div>
 
+                    <!--
+                    <ul>
+                        <li v-for="candidate in result" :key="candidate.id">
+                            <div>
+                                <h4>{{ candidate.full_name}}</h4>
+                                <span>Votes: {{ candidate.vote_count }}</span>
+                            </div>
+
+                        </li>
+                    </ul>
+                    -->
                 </div>
-                <div class="card-body">
-                    <h4 class="card-title">No Of Vote</h4>
-                    <p class="card-text">{{ vote.vote_count }}</p>
-                </div>
+
+            </div>
+
+            <div class="card-body">
             </div>
         </div>
     </div>
-
 </div>
 </template>
 
 <script>
 import notify from '../../components/notification';
 import {
-    viewCandidate
+    listResults
 } from "../../services/apiService";
 
 export default {
@@ -51,52 +59,40 @@ export default {
     },
     data() {
         return {
-            candidate: null,
+            results: null,
             isLoading: false,
             isLoadingError: false,
             nodata: false
         }
     },
     mounted() {
-        const candidateId = this.$route.params.id;
-        viewCandidate(candidateId).then((res) => {
+        this.isLoading = true;
+        const electionId = this.$route.params.id;
+        listResults(electionId).then((res) => {
             if (res?.data.data) {
-                this.candidate = res.data.data;
-                console.log(this.candidate)
+                this.results = res.data.data;
+                console.log(res.data.data)
             }
+            this.isLoading = false;
         })
     },
-
 }
 </script>
 
 <style scoped>
 .card-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    text-align: center;
+}
+
+.candidate-details {
+    text-align: center;
+    padding: 8px;
 }
 
 .rounded-img>img {
     border-radius: 50%;
     margin-right: 16px;
     width: 200px;
-}
-
-.positionCard {
-    margin-top: 7%;
-}
-
-.positionText {
-    background-color: #27ae60;
-    border-radius: 5px;
-    color: cornsilk;
-    margin-left: 0;
-    margin-top: 12px;
-    margin-bottom: 0;
-    text-align: center;
-    display: inline-block;
-    padding: 8px;
-    font-size: 16px;
+    height: 200px;
 }
 </style>

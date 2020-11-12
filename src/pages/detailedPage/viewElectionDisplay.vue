@@ -24,7 +24,7 @@
                     <div>
                         <button :class="statusColor" v-if="election.status != 'ended'" disabled>{{ election.status }}</button>
 
-                        <router-link v-else :class="statusColor" to="/dashboard/results"><span>view results</span></router-link>
+                        <router-link v-else :class="statusColor" :to="`/dashboard/elections/${election.id}/results`"><span>view results</span></router-link>
                     </div>
 
                 </div>

@@ -13,7 +13,7 @@
                             <i class="material-icons">text_snippet</i>
                             <h4>Elections</h4>
                         </div>
-                        <h1>{{elections.length}}</h1>
+                        <h1>{{results.election_count}}</h1>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                             <i class="fa fa-fw fa-clipboard"></i>
                             <h4>Positions</h4>
                         </div>
-                        <h1>{{positions.length}}</h1>
+                        <h1>{{results.position_count}}</h1>
 
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                             <i class="fa fa-fw fa-group"></i>
                             <h4>Candidates</h4>
                         </div>
-                        <h1>{{candidates.length}}</h1>
+                        <h1>{{results.candidate_count}}</h1>
 
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                             <i class="fa fa-fw fa-user-plus"></i>
                             <h4>Voters</h4>
                         </div>
-                        <h1>{{voters.length}}</h1>
+                        <h1>{{results.voter_count}}</h1>
 
                     </div>
                 </div>
@@ -61,49 +61,50 @@
 
 <script>
 import {
-    getElections,
-    getPositions,
-    listAllCandidates,
-    listAllVoters
+    getStatistics
 } from '../../services/apiService';
 export default {
     data() {
         return {
-            elections: [],
-            positions: [],
-            candidates: [],
-            voters: []
+            results: {}
         }
     },
     mounted() {
-        getElections()
-            .then((res) => {
-                this.elections = res.data.data;
+        getStatistics()
+            .then(res => {
+                this.results = res.data.data;
             })
-            .catch((err) => {
-                console.log(err)
-            })
-        getPositions()
-            .then((res) => {
-                this.positions = res.data.data;
-            })
-            .catch((err) => {
+            .catch(err => {
                 return err
             })
-        listAllCandidates()
-            .then((res) => {
-                this.candidates = res.data.data;
-            })
-            .catch((err) => {
-                return err
-            })
-        listAllVoters()
-            .then((res) => {
-                this.voters = res.data.data;
-            })
-            .catch((err) => {
-                return err
-            })
+        // getElections()
+        //     .then((res) => {
+        //         this.elections = res.data.data;
+        //     })
+        //     .catch((err) => {
+        //         console.log(err)
+        //     })
+        // getPositions()
+        //     .then((res) => {
+        //         this.positions = res.data.data;
+        //     })
+        //     .catch((err) => {
+        //         return err
+        //     })
+        // listAllCandidates()
+        //     .then((res) => {
+        //         this.candidates = res.data.data;
+        //     })
+        //     .catch((err) => {
+        //         return err
+        //     })
+        // listAllVoters()
+        //     .then((res) => {
+        //         this.voters = res.data.data;
+        //     })
+        //     .catch((err) => {
+        //         return err
+        //     })
     }
 }
 </script>

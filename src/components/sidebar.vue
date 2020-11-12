@@ -20,12 +20,7 @@
     <div>
         <router-link to="/dashboard/voters"><i class="fa fa-fw fa-user-plus"></i> voters</router-link>
     </div>
-    <div>
-        <router-link to="/dashboard/results"><i class="bx bx-poll bx-rotate-270"></i> Results</router-link>
-    </div>
-    <div>
-        <router-link to="/dashboard/setting"><i class="material-icons"> settings </i> Settings</router-link>
-    </div>
+
 </div>
 </template>
 

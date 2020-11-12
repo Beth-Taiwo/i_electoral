@@ -65,7 +65,17 @@ const routes = [
           {
             path: ':id',
             name: 'view-election',
-            component: () => import('../pages/detailedPage/viewElection')
+            component: () => import('../pages/dashboard/viewElection'),
+            children: [
+              {
+                path: '',
+                component: () => import('../pages/detailedPage/viewElectionDisplay')
+              },
+              {
+                path: 'results',
+                component: () => import('../pages/detailedPage/viewResults')
+              }
+            ]
           },
         ]
       },

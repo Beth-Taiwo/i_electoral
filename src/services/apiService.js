@@ -4,7 +4,7 @@ import axios from 'axios';
 const axiosClient =  axios.create({
     baseURL : 'https://test.api.walulel.com/api',
     // baseURL : 'https://cc5997dc57ee.ngrok.io/api',
-    // timeout: 60000
+    timeout: 60000
 });
 axiosClient.interceptors.request.use((request) => {
   
@@ -50,95 +50,99 @@ axiosClient.interceptors.response.use((response)=>{
 export const adminLogin = function(credentials){
     return axiosClient.post('/admin/auth/login',credentials);
 }
+//getStatistics
+export const getStatistics = function(){
+  return axiosClient.get('/dashboard/stats');
+}
 
 //Election
 export const getElections = function(){
-    return axiosClient.get('/elections');
+    return axiosClient.get('/dashboard/elections');
 }
 export const viewElection = function(id){
-  return axiosClient.get('/elections/' + id)
+  return axiosClient.get('/dashboard/elections/' + id)
 }
 
 export const createElection =  function (election){
-  return axiosClient.post('/elections',election)
+  return axiosClient.post('/dashboard/elections',election)
 }
 
 
 export const updateElection = function(id, updatedElection) {
-  return axiosClient.patch('elections/'+id,updatedElection);
+  return axiosClient.patch('/dashboard/elections/'+id,updatedElection);
 };
 
 export const deleteElectionByID=  function(id){
- return axiosClient.delete('elections/'+id);
+ return axiosClient.delete('/dashboard/elections/'+id);
 }
 
 
 // create Positions
 export const getPositions = function(){
-  return axiosClient.get('/positions');
+  return axiosClient.get('/dashboard/positions');
 }
 
 export const getElectionPositions = function(electionId){
-  return axiosClient.get('/elections/'+ electionId +'/positions');
+  return axiosClient.get('/dashboard/elections/'+ electionId +'/positions');
 }
 
 export const createPosition =  function (electionId, position){
-return axiosClient.post('/elections/'+ electionId +'/positions', position)
+return axiosClient.post('/dashboard/elections/'+ electionId +'/positions', position)
  
 }
 export const viewPosition = function(positionId){
-  return axiosClient.get('/positions/'+positionId);
+  return axiosClient.get('/dashboard/positions/'+positionId);
 }
 
 export const updatePosition = function(id, updatedPosition) {
 
-  return axiosClient.patch('/positions/'+id,updatedPosition);
+  return axiosClient.patch('/dashboard/positions/'+id,updatedPosition);
 
  
 };
 export const deletePosition = function(positionId){
-  return axiosClient.delete('/positions/'+positionId);
+  return axiosClient.delete('/dashboard/positions/'+positionId);
 }
 
 //create candidate
 export const createCandidate= function(positionId,candidate, config){
-  return axiosClient.post('/positions/'+ positionId + '/candidates', candidate, config );
+  return axiosClient.post('/dashboard/positions/'+ positionId + '/candidates', candidate, config );
 }
 
 export const updateCandidate = function(candidateId, updateCandidate){
-  return axiosClient.patch('/candidates/' + candidateId, updateCandidate);
+  return axiosClient.patch('/dashboard/candidates/' + candidateId, updateCandidate);
 }
 
 export const viewCandidate = function(candidateId){
-  return axiosClient.get('/candidates/'+ candidateId);
+  return axiosClient.get('/dashboard/candidates/'+ candidateId);
 }
 
 export const deleteCandidateByID = function(candidateId){
-  return axiosClient.delete('/candidates/'+ candidateId);
+  return axiosClient.delete('/dashboard/candidates/'+ candidateId);
 }
 
 export const updateCandidatePicture = function(candidateId,img){
-  return axiosClient.post('/candidates/'+ candidateId+ '/update-profile-picture', img)
+  return axiosClient.post('/dashboard/candidates/'+ candidateId+ '/update-profile-picture', img)
 }
 export const listAllCandidates = function(){
-  return axiosClient.get('/candidates')
+  return axiosClient.get('/dashboard/candidates')
 }
 
 //create voter
 export const registerVoter = function(voter){
-  return axiosClient.post('/voters', voter)
+  return axiosClient.post('/dashboard/voters', voter)
 }
 export const viewVoter = function(voterId){
-  return axiosClient.get('/voters/' + voterId);
+  return axiosClient.get('/dashboard/voters/' + voterId);
 }
 export const updateVoter =  function(voterId, updateVoter){
-  return axiosClient.patch('/voters/'+ voterId,updateVoter)
+  return axiosClient.patch('/dashboard/voters/'+ voterId,updateVoter)
 }
 export const deleteVoterByID = function(voterId){
-  return axiosClient.delete('/voters/' + voterId);
+  return axiosClient.delete('/dashboard/voters/' + voterId);
 }
 export const listAllVoters = function(){
-  return axiosClient.get('/voters');
+  return axiosClient.get('/dashboard/voters');
 }
 
 //votes
