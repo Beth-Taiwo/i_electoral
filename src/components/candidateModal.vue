@@ -13,7 +13,7 @@
                 <label for="message-text" class="col-form-label">Bio</label>
                 <textarea class="form-control" v-model="candidate.bio" id="message-text"></textarea>
             </div>
-
+            <!--
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Position</label>
@@ -23,15 +23,35 @@
                     <option :value="position.id" :key="position.id" v-for="position in positions">{{ position.title}}</option>
                 </select>
             </div>
+-->
 
-            <div>
-                <input :src="candidate.avatar" type="file" @change="previewImage">
-                <div id="preview-area" v-if="photo">
-                    <img :src="photo" alt="" width="100" height="100">
-                    <p>
-                        <button @click.prevent="removeImage">Remove</button>
-                    </p>
+            <div v-if="!editableCandidate" class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Election</label>
                 </div>
+                <select @change="_getPositions" v-model="selectedElection" class="custom-select" id="inputGroupSelect01">
+                    <option value="">Choose...</option>
+                    <option :value="election.id" :key="election.id" v-for="election in elections">{{ election.name}}</option>
+                </select>
+            </div>
+
+            <div v-show="positions.length > 0" class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01">Position</label>
+                </div>
+                <select v-model="selectedPosition" class="custom-select" id="inputGroupSelect01">
+                    <option value="">Choose...</option>
+                    <option :value="position.id" :key="position.id" v-for="position in positions">{{ position.title}}</option>
+                </select>
+            </div>
+
+            <div v-if="!editableCandidate">
+                <input :src="candidate.avatar" type="file" @change="previewImage">
+                <div class="d-flex flex-column align-items-center" id="preview-area" v-if="photo">
+                    <img :src="photo" class="my-3 preview-img" alt="">
+                    <button class="btn btn-danger btn-sm" @click.prevent="removeImage">Remove</button>
+                </div>
+
             </div>
         </form>
     </template>
@@ -43,8 +63,9 @@
 import Modal from '../components/modal';
 import {
     createCandidate,
-    getPositions,
-    updateCandidate
+    getElections,
+    updateCandidate,
+    getElectionPositions
 } from "../services/apiService";
 export default {
     props: ['closeModal', 'onCandidateCreated', 'onCandidateUpdated', 'editableCandidate', 'positionId', 'electionId'],
@@ -54,7 +75,11 @@ export default {
     data() {
         return {
             candidate: {},
+            // positions: [],
             positions: [],
+            elections: [],
+            // selectedPosition: '',
+            selectedElection: '',
             selectedPosition: '',
             photo: null,
             avatar: null
@@ -66,16 +91,27 @@ export default {
                 ...this.editableCandidate
             }
         }
-        getPositions()
+        getElections()
             .then((res) => {
                 if (res?.data) {
-                    this.positions = res.data.data;
+                    this.elections = res.data.data;
                     // this.onCandidateCreated(res.data.data)
                 }
             })
             .catch((err) => {
                 return err
-            })
+            });
+
+        // getPositions()
+        //     .then((res) => {
+        //         if (res?.data) {
+        //             this.positions = res.data.data;
+        //             // this.onCandidateCreated(res.data.data)
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         return err
+        //     })
     },
     methods: {
         addCandidate() {
@@ -106,6 +142,20 @@ export default {
                     })
             }
         },
+        _getPositions() {
+            this.positions = [];
+            getElectionPositions(this.selectedElection)
+                .then((res) => {
+                    if (res?.data) {
+                        this.positions = res.data.data;
+                        this.electionSelected = true
+                        // this.onCandidateCreated(res.data.data)
+                    }
+                })
+                .catch((err) => {
+                    return err
+                })
+        },
         previewImage(e) {
             const file = e.target.files[0];
             this.candidate.avatar = file;
@@ -122,3 +172,10 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.preview-img {
+    height: 200px;
+    width: auto;
+}
+</style>

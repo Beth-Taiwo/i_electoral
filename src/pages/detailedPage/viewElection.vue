@@ -20,14 +20,11 @@
                         <h2>{{ election.name }}</h2>
                         <p>Created on: {{ createdTime }}</p>
                     </div>
-                    <!--  <div v-for="vote of votes" :key="vote.id"> -->
+
                     <div>
                         <button :class="statusColor" v-if="election.status != 'ended'" disabled>{{ election.status }}</button>
-                        <!--
-                        <router-link v-else :class="statusColor" to="/dashboard/elections"><i class="bx bx-chevron-left"></i><span>view results</span></router-link>
-                        -->
-                        <button v-else :class="statusColor" @click="viewResultByElection">view results</button>
 
+                        <router-link v-else :class="statusColor" to="/dashboard/results"><span>view results</span></router-link>
                     </div>
 
                 </div>
@@ -64,8 +61,7 @@ import notify from '../../components/notification';
 import moment from "moment";
 import {
     viewElection,
-    deletePosition,
-    listResults
+    deletePosition
 } from "../../services/apiService";
 import positionModal from "../../components/positionModal";
 export default {
@@ -81,7 +77,6 @@ export default {
             positiondata: [],
             isLoading: false,
             isLoadingError: false,
-            votes: []
         };
     },
     computed: {
@@ -139,14 +134,14 @@ export default {
             alert("Please refresh page to see changes")
             // this.$router.go();
         },
-        viewResultByElection() {
-            const electionId = this.$route.params.id;
-            listResults(electionId)
-                .then(res => {
-                    console.log(res.data.data);
-                    this.votes = res.data.data;
-                })
-        }
+        // viewResultByElection() {
+        //     const electionId = this.$route.params.id;
+        //     listResults(electionId)
+        //         .then(res => {
+        //             console.log(res.data.data);
+        //             this.votes = res.data.data;
+        //         })
+        // }
     },
 };
 </script>
