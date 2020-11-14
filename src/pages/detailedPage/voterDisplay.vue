@@ -17,12 +17,13 @@
 </template>
 
 <script>
+import swal from '../../common/alert';
 import notify from '../../components/notification';
 import {
     listAllVoters,
     deleteVoterByID
 } from "../../services/apiService";
-import voterModal from '../../components/voterModal'
+import voterModal from '../../components/voterModal';
 import voterTable from '../../components/voterTable';
 export default {
     components: {
@@ -42,22 +43,25 @@ export default {
         }
     },
     mounted() {
-        this.isLoading = true;
-        listAllVoters()
-            .then((response) => {
-                if (response?.data.data) {
-                    this.voterdata = response.data.data;
-                }
-            }).catch(() => {
-                this.isLoadingError = true;
-            })
-            .then(() => {
-                this.isLoading = false;
-                this.nodata = this.voterdata.length <= 0 && !this.isLoading && !this.isLoadingError;
-            });
+        this.getData()
     },
 
     methods: {
+        getData() {
+            this.isLoading = true;
+            listAllVoters()
+                .then((response) => {
+                    if (response?.data.data) {
+                        this.voterdata = response.data.data;
+                    }
+                }).catch(() => {
+                    this.isLoadingError = true;
+                })
+                .then(() => {
+                    this.isLoading = false;
+                    this.nodata = this.voterdata.length <= 0 && !this.isLoading && !this.isLoadingError;
+                });
+        },
         showAddModal() {
             this.showModal = true;
         },
@@ -65,10 +69,10 @@ export default {
             this.showModal = false;
             this.editableVoter = null;
         },
-        onVoterCreated(voter) {
-            this.voterdata = [...this.voterdata, voter];
+        onVoterCreated() {
+            this.getData();
             this.closeModal();
-            this.$router.go();
+            swal.success();
         },
 
         onVoterUpdated(voter) {
@@ -79,6 +83,7 @@ export default {
                 return x_voter;
             });
             this.closeModal();
+            swal.success();
         },
         manageVoter(voter) {
             this.editableVoter = voter;
@@ -86,18 +91,20 @@ export default {
         },
 
         deleteVoter(id) {
-            if (confirm("Are you sure you want to do this?")) {
-                //delete request
-                deleteVoterByID(id)
-                    .then((res) => {
-                        return res
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                this.voterdata = this.voterdata.filter(voter => voter.id != id)
-
-            }
+            swal.confirm("Are you sure?", (confirmed) => {
+                if (confirmed) {
+                    //delete request
+                    deleteVoterByID(id)
+                        .then(() => {
+                            swal.success();
+                            this.getData();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            swal.error("Unable to delete voter, this might be a connection problem. Try again after some time");
+                        })
+                }
+            })
         }
 
     },

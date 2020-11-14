@@ -59,12 +59,17 @@ export default {
         }
     },
     mounted() {
+        this.isLoading = true;
         const candidateId = this.$route.params.id;
         viewCandidate(candidateId).then((res) => {
             if (res?.data.data) {
                 this.candidate = res.data.data;
-                console.log(this.candidate)
+                this.isLoading = false;
             }
+        }).catch((err) => {
+            console.log(err);
+            this.isLoadingError = true;
+            this.isLoading = false;
         })
     },
 

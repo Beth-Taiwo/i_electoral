@@ -10,22 +10,20 @@
         </template>
     </notify>
     <div class="container">
-        <div class="card">
-            <div v-for="(result,index) of results" :key="index">
-                <div class="card-header">
-                    <strong><span> {{ result[0].position_name }} </span></strong>
-                </div>
-                <div class="card-body d-flex justify-content-center">
-                    <div class="candidate-details" v-for="candidate in result" :key="candidate.id">
-                        <div class="rounded-img">
-                            <img :src="candidate.avatar_url" alt="candidate image">
-
-                        </div>
-                        <h4>{{ candidate.full_name}}</h4>
-                        <span>Votes: <b>{{ candidate.vote_count }}</b></span>
+        <div class="card mb-2" v-for="(result,index) of results" :key="index">
+            <div class="card-header text-center">
+                <strong><span> {{ result[0].position_name }} </span></strong>
+            </div>
+            <div class="card-body d-flex justify-content-center mb-2">
+                <div class="candidate-details text-center mx-2" v-for="candidate in result" :key="candidate.id">
+                    <div class="rounded-img">
+                        <img :src="candidate.avatar_url" alt="candidate image">
                     </div>
+                    <h4>{{ candidate.full_name}}</h4>
+                    <span>Votes: <b>{{ candidate.vote_count }}</b></span>
+                </div>
 
-                    <!--
+                <!--
                     <ul>
                         <li v-for="candidate in result" :key="candidate.id">
                             <div>
@@ -36,13 +34,10 @@
                         </li>
                     </ul>
                     -->
-                </div>
-
             </div>
 
-            <div class="card-body">
-            </div>
         </div>
+
     </div>
 </div>
 </template>
@@ -80,18 +75,8 @@ export default {
 </script>
 
 <style scoped>
-.card-header {
-    text-align: center;
-}
-
-.candidate-details {
-    text-align: center;
-    padding: 8px;
-}
-
 .rounded-img>img {
     border-radius: 50%;
-    margin-right: 16px;
     width: 200px;
     height: 200px;
 }

@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import swal from '../../common/alert';
 import {
     listAllCandidates,
     deleteCandidateByID
@@ -47,25 +48,27 @@ export default {
     },
 
     mounted() {
-        this.isLoading = true;
-        // this.nodata = this.candidate.length <= 0 && !this.isLoading;
-        listAllCandidates()
-            .then((response) => {
-                if (response?.data.data) {
-                    this.candidatedata = response.data.data;
-
-                }
-            })
-            .catch(() => {
-                this.isLoadingError = true;
-            })
-            .then(() => {
-                this.isLoading = false;
-                this.nodata = this.candidatedata.length <= 0 && !this.isLoading && !this.isLoadingError;
-            });
+        this.getData();
     },
 
     methods: {
+        getData() {
+            this.isLoading = true;
+            // this.nodata = this.candidate.length <= 0 && !this.isLoading;
+            listAllCandidates()
+                .then((response) => {
+                    if (response?.data.data) {
+                        this.candidatedata = response.data.data;
+                    }
+                })
+                .catch(() => {
+                    this.isLoadingError = true;
+                })
+                .then(() => {
+                    this.isLoading = false;
+                    this.nodata = this.candidatedata.length <= 0 && !this.isLoading && !this.isLoadingError;
+                });
+        },
         showAddModal() {
             this.showModal = true;
         },
@@ -73,10 +76,12 @@ export default {
             this.showModal = false;
             this.editableCandidate = null;
         },
-        onCandidateCreated(candidate) {
-            this.candidatedata = [...this.candidatedata, candidate];
+        onCandidateCreated() {
+            // this.candidatedata = [...this.candidatedata, candidate];
+            this.getData();
             this.closeModal();
-            this.$router.go();
+            swal.success();
+
         },
 
         onCandidateUpdated(candidate) {
@@ -87,6 +92,7 @@ export default {
                 return x_candidate;
             });
             this.closeModal();
+            swal.success();
         },
         manageCandidate(candidate) {
             this.editableCandidate = candidate;
@@ -94,18 +100,21 @@ export default {
         },
 
         deleteCandidate(id) {
-            if (confirm("Are you sure you want to delete this candidate?")) {
-                //delete request
-                deleteCandidateByID(id)
-                    .then((res) => {
-                        return res
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                this.candidatedata = this.candidatedata.filter(candidate => candidate.id != id)
+            swal.confirm("Are you sure?", (confirmed) => {
+                if (confirmed) {
+                    //delete request
+                    deleteCandidateByID(id)
+                        .then(() => {
+                            this.getData();
+                            swal.success();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            swal.error("Unable to delete candidate, this might be a connection problem. Try again after some time");
+                        })
 
-            }
+                }
+            })
         }
 
     },

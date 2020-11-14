@@ -8,18 +8,18 @@
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input :disabled="isLoading" id="email" type="email" class="form-control" :class="errorTarget == 'email' ? 'is-invalid' : null" name="email" required v-model="email" aria-describedby="emailHelp" />
+            <input :disabled="isLoadingText" id="email" type="email" class="form-control" :class="errorTarget == 'email' ? 'is-invalid' : null" name="email" required v-model="email" aria-describedby="emailHelp" />
             <span style="font-size: 10px; color: red" v-show="errorTarget == 'email'">{{ errorMessage }}</span>
         </div>
         <div class="form-group mb-4">
             <label for="password">Password</label>
-            <input :disabled="isLoading" type="password" :class="errorTarget == 'password' ? 'is-invalid' : null" class="form-control" id="password" v-model="password" />
+            <input :disabled="isLoadingText" type="password" :class="errorTarget == 'password' ? 'is-invalid' : null" class="form-control" id="password" v-model="password" />
             <span style="font-size: 10px; color: red" v-show="errorTarget == 'password'">{{ errorMessage }}</span>
         </div>
 
-        <button :disabled="isLoading" type="submit" class="btn btn-block mb-4">{{isLoading ? 'Please wait...' : 'Login'}}</button>
+        <button :disabled="isLoadingText" type="submit" class="btn btn-block mb-4">{{isLoadingText ? 'Please wait...' : 'Login'}}</button>
 
-        <router-link v-show="!isLoading" to="/reset-password">Forgot password?</router-link>
+        <router-link v-show="!isLoadingText" to="/reset-password">Forgot password?</router-link>
     </form>
 </div>
 </template>
@@ -41,7 +41,7 @@ export default {
             password: null,
             errorMessage: null,
             errorTarget: null,
-            isLoading: false,
+            isLoadingText: false,
         };
     },
 
@@ -60,7 +60,7 @@ export default {
 
             // if there was no error, attempt login
             if (!this.errorMessage) {
-                this.isLoading = true;
+                this.isLoadingText = true;
                 const credentials = {
                     email: this.email,
                     password: this.password

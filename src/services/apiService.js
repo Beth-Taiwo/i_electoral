@@ -25,7 +25,6 @@ axiosClient.interceptors.request.use((request) => {
 axiosClient.interceptors.response.use((response)=>{
       return response;
   },(error)=>{
-    // console.log(error.response.status);
     let status = error.response.status;
     switch(status){
       case 401:
@@ -154,75 +153,3 @@ export const createNewVote = function(electionId, vote){
 export const listResults = function(electionId){
   return axiosClient.get('/elections/' + electionId + '/results');
 }
-/*
-
-// create candidate
-export const getCandidates = function(){
-
-  // return axiosClient.get('/candidates');
-  
-  return new Promise((resolve)=>{
-      setTimeout(()=>{
-          resolve({
-            data: [...candidates],
-          });
-      },2000)
-  })
-}
-
-export const createCandidate =  function (candidate){
-
-  return new Promise(resolve=>{
-      setTimeout(() => {
-          const e = { ...candidate, id: 12 };
-          candidates.unshift(e);
-        resolve({
-          data: e,
-          message : "candidate created successful"
-        });
-      }, 2000);
-  })
-}
-
-export const updateCandidate = function(id, updatedCandidate) {
-
-  // return axiosClient.patch('candidate/'+id,updatedCandidate);
-
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      candidates =  candidates.map(x_candidate=>{
-        if(x_candidate.id === id)
-        {
-          return updatedCandidate;
-        }
-        return x_candidate;
-      })   
-      resolve({
-        data: {...updatedCandidate},
-        message: "Candidate updated successful",
-      });
-    }, 2000);
-  });
-};
-
-
-let candidates = [
-{
-  id: 1,
-  fullname: "Mr Somebody",
-  Bio: "Sometext that describes .......",
-  position: "president",
-  img: ""
-},
-{
-  id:2,
-  fullname: "Mr Somebody",
-  Bio: "Sometext that describes .......",
-  position: "Secretary",
-  img: ""
-}
-
-
-];
-
-*/

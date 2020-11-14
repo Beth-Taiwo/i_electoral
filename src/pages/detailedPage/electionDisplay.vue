@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 import {
     getElections,
     deleteElectionByID
@@ -47,25 +48,28 @@ export default {
     },
 
     mounted() {
-        this.isLoading = true;
-        this.nodata = this.electiondata.length <= 0 && !this.isLoading;
-        getElections()
-            .then((response) => {
-                if (response?.data.data) {
-                    this.electiondata = response.data.data;
-                }
-            })
-            .catch(() => {
-                this.isLoadingError = true;
-            })
-            .then(() => {
-                this.isLoading = false;
-                this.nodata = this.electiondata.length <= 0 && !this.isLoading && !this.isLoadingError;
-
-            });
+        this.getData();
     },
 
     methods: {
+        getData() {
+            this.isLoading = true;
+            this.nodata = this.electiondata.length <= 0 && !this.isLoading;
+            getElections()
+                .then((response) => {
+                    if (response?.data.data) {
+                        this.electiondata = response.data.data;
+                    }
+                })
+                .catch(() => {
+                    this.isLoadingError = true;
+                })
+                .then(() => {
+                    this.isLoading = false;
+                    this.nodata = this.electiondata.length <= 0 && !this.isLoading && !this.isLoadingError;
+
+                });
+        },
         showAddModal() {
             this.showModal = true;
         },
@@ -73,10 +77,14 @@ export default {
             this.showModal = false;
             this.editableElection = null;
         },
-        onElectionCreated(election) {
-            this.electiondata = [...this.electiondata, election];
+        onElectionCreated() {
+            this.getData();
             this.closeModal();
-            this.$router.go();
+            swal({
+                title: "All Good!",
+                text: "Operation successfull",
+                icon: "success"
+            })
         },
 
         onElectionUpdated(election) {
@@ -87,6 +95,12 @@ export default {
                 return x_election;
             });
             this.closeModal();
+            this.getData();
+            swal({
+                title: "All Good!",
+                text: "Operation successfull",
+                icon: "success"
+            })
         },
         manageElection(election) {
             this.editableElection = election;
@@ -94,18 +108,32 @@ export default {
         },
 
         deleteElection(id) {
-            if (confirm("Are you sure you want to delete this election?")) {
-                //delete request
-                deleteElectionByID(id)
-                    .then((res) => {
-                        return res
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    })
-                this.electiondata = this.electiondata.filter(election => election.id != id)
+            swal("Are you sure?", {
+                dangerMode: true,
+                icon: "warning",
+                buttons: true,
+            }).then((confirmed) => {
+                if (confirmed) {
+                    //delete request
+                    deleteElectionByID(id)
+                        .then(() => {
+                            this.getData();
+                            swal({
+                                title: "All Good!",
+                                text: "Operation successfull",
+                                icon: "success"
+                            })
 
-            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            swal({
+                                text: "Unable to delete,try again after some time",
+                                icon: "error"
+                            })
+                        })
+                }
+            })
         }
 
     },

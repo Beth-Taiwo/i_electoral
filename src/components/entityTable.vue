@@ -39,6 +39,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 import {
     updateElection
 } from '../services/apiService';
@@ -75,17 +76,31 @@ export default {
             this.editElection = {};
         },
         startStopElection(id, status) {
+            swal("Are you sure?", {
+                dangerMode: true,
+                icon: "warning",
+                buttons: true,
+            }).then((confirmed) => {
+                if (confirmed) {
 
-            updateElection(id, {
-                    status: status === 'ongoing' ? 'ended' : 'ongoing'
-                })
-                .then((res) => {
-                    this.notification = res.data.data.status;
-                    alert(`This election is ${this.notification}`)
-                })
-                .catch((err) => {
-                    console.log(err)
-                });
+                    //update request
+                    updateElection(id, {
+                            status: status === 'ongoing' ? 'ended' : 'ongoing'
+                        })
+                        .then((res) => {
+                            this.notification = res.data.data.status;
+                            swal({
+                                title: "All Good!",
+                                text: `This election is ${this.notification}`,
+                                icon: "success"
+                            })
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+                }
+            })
+
         },
         statusBtnText(item) {
             if (item.status == 'ongoing') {

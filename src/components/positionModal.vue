@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import swal from '../common/alert';
 import Modal from "../components/modal";
 import {
     createPosition
@@ -37,8 +38,8 @@ export default {
             createPosition(this.electionId, this.position).then((response) => {
                 if (response?.data) {
                     this.onPositionCreated(response.data.data);
-                    alert(`${response.data.data.message}!!!`);
-                    this.$router.go();
+                    swal.success()
+
                 }
             });
         },

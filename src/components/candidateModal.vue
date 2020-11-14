@@ -1,7 +1,7 @@
 <template>
 <modal :close="closeModal" @formsave="addCandidate">
     <template v-slot:title>
-        <h5 class="modal-title">Add Candidate</h5>
+        <h5 class="modal-title">{{formTitle}}</h5>
     </template>
     <template v-slot:content>
         <form>
@@ -13,24 +13,13 @@
                 <label for="message-text" class="col-form-label">Bio</label>
                 <textarea class="form-control" v-model="candidate.bio" id="message-text"></textarea>
             </div>
-            <!--
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Position</label>
-                </div>
-                <select v-model="selectedPosition" class="custom-select" id="inputGroupSelect01">
-                    <option value="">Choose...</option>
-                    <option :value="position.id" :key="position.id" v-for="position in positions">{{ position.title}}</option>
-                </select>
-            </div>
--->
 
             <div v-if="!editableCandidate" class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Election</label>
                 </div>
                 <select @change="_getPositions" v-model="selectedElection" class="custom-select" id="inputGroupSelect01">
-                    <option value="">Choose...</option>
+                    <option disabled value="">Choose...</option>
                     <option :value="election.id" :key="election.id" v-for="election in elections">{{ election.name}}</option>
                 </select>
             </div>
@@ -75,14 +64,17 @@ export default {
     data() {
         return {
             candidate: {},
-            // positions: [],
             positions: [],
             elections: [],
-            // selectedPosition: '',
             selectedElection: '',
             selectedPosition: '',
             photo: null,
-            avatar: null
+            avatar: null,
+        }
+    },
+    computed: {
+        formTitle() {
+            return this.editableCandidate ? 'Update Candidate' : 'Add Candidate'
         }
     },
     mounted() {
@@ -95,23 +87,11 @@ export default {
             .then((res) => {
                 if (res?.data) {
                     this.elections = res.data.data;
-                    // this.onCandidateCreated(res.data.data)
                 }
             })
             .catch((err) => {
                 return err
             });
-
-        // getPositions()
-        //     .then((res) => {
-        //         if (res?.data) {
-        //             this.positions = res.data.data;
-        //             // this.onCandidateCreated(res.data.data)
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         return err
-        //     })
     },
     methods: {
         addCandidate() {
@@ -129,7 +109,6 @@ export default {
                 createCandidate(this.selectedPosition, data, config)
                     .then(response => {
                         if (response?.data) {
-                            console.log(response.data.data);
                             this.onCandidateCreated(response.data.data);
                         }
                     })
@@ -148,8 +127,7 @@ export default {
                 .then((res) => {
                     if (res?.data) {
                         this.positions = res.data.data;
-                        this.electionSelected = true
-                        // this.onCandidateCreated(res.data.data)
+                        this.electionSelected = true;
                     }
                 })
                 .catch((err) => {

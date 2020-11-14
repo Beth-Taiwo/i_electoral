@@ -42,9 +42,6 @@ const routes = [
         })
       }
     },
-    // meta: {
-    //   requiresAuth: true
-    // },
     children : [
       {
         path: '',
@@ -110,12 +107,7 @@ const routes = [
             path: '',
             name: '',
             component: () => import('../pages/detailedPage/voterDisplay')
-          },
-          {
-            path: ':id',
-            name: 'view-voter',
-            component: () => import('../pages/detailedPage/viewVoter')
-          },
+          }
         ]
       },
       {

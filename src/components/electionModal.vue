@@ -14,11 +14,11 @@
                 <input v-model="election.description" type="text" class="form-control" />
             </div>
 
-            <div class="form-group">
+            <div v-show="!editableElection" class="form-group">
                 <label for="">Start DateTime</label>
                 <input v-model.lazy="election.start_period" type="datetime-local" name="startTime" id="startTime" />
             </div>
-            <div class="form-group">
+            <div v-show="!editableElection" class="form-group">
                 <label for="">End DateTime</label>
                 <input v-model.lazy="election.end_period" type="datetime-local" name="endTime" id="endTime" />
             </div>
@@ -62,16 +62,13 @@ export default {
                     .then(response => {
                         if (response?.data.data) {
                             this.onElectionCreated(response.data.data);
-                            alert('Election created successfully')
                         }
                     })
             } else {
                 updateElection(this.election.id, this.election)
                     .then(response => {
                         if (response?.data.data) {
-                            // alert(response);
                             this.onElectionUpdated(response.data.data);
-                            alert(`${response.data.data.message} has been updated successfully`);
                         }
                     })
             }

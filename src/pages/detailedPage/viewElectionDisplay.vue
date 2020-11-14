@@ -57,6 +57,7 @@
 </template>
 
 <script>
+import swal from '../../common/alert';
 import notify from '../../components/notification';
 import moment from "moment";
 import {
@@ -91,57 +92,55 @@ export default {
         },
     },
     mounted() {
-        const electionId = this.$route.params.id;
-        this.isLoading = true;
-        viewElection(electionId)
-            .then((res) => {
-                this.loading = false;
-                this.election = res.data.data;
-                this.positions = res.data.data.positions;
-                this.createdTime = moment(this.election.created_at).format(
-                    "dddd, MMMM Do YYYY, h:mm:ss a"
-                );
-            })
-            .catch(() => {
-                this.isLoadingError = true;
-            })
-            .then(() => {
-                this.isLoading = false;
-            });
+        this.getData()
     },
     methods: {
+        getData() {
+            const electionId = this.$route.params.id;
+            this.isLoading = true;
+            viewElection(electionId)
+                .then((res) => {
+                    this.loading = false;
+                    this.election = res.data.data;
+                    this.positions = res.data.data.positions;
+                    this.createdTime = moment(this.election.created_at).format(
+                        "dddd, MMMM Do YYYY, h:mm:ss a"
+                    );
+                })
+                .catch(() => {
+                    this.isLoadingError = true;
+                })
+                .then(() => {
+                    this.isLoading = false;
+                });
+        },
         showAddModal() {
             this.showModal = true;
         },
         closeModal() {
             this.showModal = false;
         },
-        onPositionCreated(position) {
-            this.positiondata = [...this.positiondata, position];
+        onPositionCreated() {
+            this.getData();
             this.closeModal();
         },
         ondelete(id) {
-            if (confirm("Are you sure you want to delete this position?")) {
-                deletePosition(id)
-                    .then((res) => {
-                        return res;
-                    })
-                    .catch((err) => {
-                        return err;
-                    });
-                this.positiondata = this.positiondata.filter(position => position.id != id)
-            }
-            alert("Please refresh page to see changes")
-            // this.$router.go();
+            swal.confirm("Are you sure?", (confirmed) => {
+                if (confirmed) {
+                    deletePosition(id)
+                        .then(() => {
+                            this.getData();
+                            swal.success()
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            swal.error("Unable to delete election, this might be a connection problem. Try again after some time")
+                        });
+
+                }
+            })
+
         },
-        // viewResultByElection() {
-        //     const electionId = this.$route.params.id;
-        //     listResults(electionId)
-        //         .then(res => {
-        //             console.log(res.data.data);
-        //             this.votes = res.data.data;
-        //         })
-        // }
     },
 };
 </script>

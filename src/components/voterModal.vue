@@ -1,7 +1,7 @@
 <template>
 <modal :close="closeModal" @formsave="addVoter">
     <template v-slot:title>
-        <h5 class="modal-title" id="exampleModalLabel">Add Voter</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{formTitle}}</h5>
     </template>
     <template v-slot:content>
         <form>
@@ -9,12 +9,12 @@
                 <label for="voter-name" class="col-form-label">Voter name</label>
                 <input v-model="voter.full_name" type="text" placeholder="Enter your full name" class="form-control" id="voter-name" />
             </div>
-            <div class="form-group">
+            <div v-show="!editableVoter" class="form-group">
                 <label for="message-text" class="col-form-label">Email</label>
                 <input v-model="voter.email" type="email" class="form-control" id="email" />
             </div>
 
-            <div class="input-group mb-3">
+            <div v-show="!editableVoter" class="input-group mb-3">
                 <div class="input-group-prepend">
                     <label class="input-group-text" for="inputGroupSelect01">Election</label>
                 </div>
@@ -45,6 +45,11 @@ export default {
             voter: {},
             elections: [],
         };
+    },
+    computed: {
+        formTitle() {
+            return this.editableVoter ? 'Update Voter' : 'Add Voter'
+        }
     },
     mounted() {
         if (this.editableVoter) {
